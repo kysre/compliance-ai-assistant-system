@@ -1,7 +1,5 @@
 import os
 
-import dj_database_url
-
 from compliance_ai_assistant.settings.base import *  # NOQA
 
 DEBUG = False
@@ -14,6 +12,15 @@ ALLOWED_HOSTS.extend(
     )
 )
 
-DATABASES["default"] = dj_database_url.parse(os.environ["DATABASE_URL"])
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": os.environ.get("DATABASE_NAME", "postgres"),
+        "USER": os.environ.get("DATABASE_USER", "postgres"),
+        "PASSWORD": os.environ.get("DATABASE_PASSWORD", ""),
+        "HOST": os.environ.get("DATABASE_HOST", "localhost"),
+        "PORT": os.environ.get("DATABASE_PORT", "5432"),
+    }
+}
 
 CORS_ALLOWED_ORIGINS = []
