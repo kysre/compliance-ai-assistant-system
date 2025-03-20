@@ -6,7 +6,7 @@ class Regulation(models.Model):
     """
     Model representing a regulation or law.
 
-    A regulation can have multiple articles and can reference other regulations.
+    A regulation can have multiple articles.
     """
 
     title = models.CharField(max_length=255, help_text=_("Regulation Title"))
@@ -14,7 +14,7 @@ class Regulation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.title} - {self.number}" if self.number else self.title
+        return f"{self.title} - {self.created_at}"
 
     class Meta:
         verbose_name = _("Regulation")
@@ -35,17 +35,20 @@ class Article(models.Model):
         related_name="articles",
         help_text=_("Related Regulation"),
     )
-    number = models.CharField(max_length=50, help_text=_("Article Number"))
-    text = models.TextField(help_text=_("Article Text"))
+    title = models.CharField(
+        max_length=50,
+        help_text=_("Article Title"),
+    )
+    text = models.TextField(help_text=_("Article Text"), blank=True, default="")
 
     def __str__(self):
-        return f"{self.regulation.title} - {_('Article')} {self.number}"
+        return f"{self.regulation.title} - {_('Article')} {self.title}"
 
     class Meta:
         verbose_name = _("Article")
         verbose_name_plural = _("Articles")
-        ordering = ["regulation", "number"]
-        unique_together = ["regulation", "number"]
+        ordering = ["regulation", "title"]
+        unique_together = ["regulation", "title"]
 
 
 class Clause(models.Model):
@@ -61,14 +64,14 @@ class Clause(models.Model):
         related_name="clauses",
         help_text=_("Related Article"),
     )
-    number = models.CharField(max_length=50, help_text=_("Clause Number"))
+    title = models.CharField(max_length=50, help_text=_("Clause Title"))
     text = models.TextField(help_text=_("Clause Text"))
 
     def __str__(self):
-        return f"{self.article} - {_('Clause')} {self.number}"
+        return f"{self.article} - {_('Clause')} {self.title}"
 
     class Meta:
         verbose_name = _("Clause")
         verbose_name_plural = _("Clauses")
-        ordering = ["article", "number"]
-        unique_together = ["article", "number"]
+        ordering = ["article", "title"]
+        unique_together = ["article", "title"]
