@@ -13,3 +13,17 @@ format:
 format-check:
 	@echo "Checking Python code formatting with Black..."
 	black --check .
+
+install:
+	pip install --upgrade pip
+	pip install -r requirements.txt
+
+messages:
+	python manage.py compilemessages -l fa
+
+migrations:
+	DJANGO_SETTINGS_MODULE="compliance_ai_assistant.settings.development" python manage.py makemigrations
+	DJANGO_SETTINGS_MODULE="compliance_ai_assistant.settings.development" python manage.py migrate
+
+run_admin_local:
+	DJANGO_SETTINGS_MODULE="compliance_ai_assistant.settings.development" python manage.py runserver
