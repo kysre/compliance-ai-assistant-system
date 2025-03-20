@@ -23,16 +23,16 @@ class RegulationAdmin(admin.ModelAdmin):
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ("number", "regulation")
+    list_display = ("title", "regulation")
     list_filter = ("regulation",)
-    search_fields = ("number", "text", "regulation__title")
+    search_fields = ("title", "text", "regulation__title")
     inlines = [ClauseInline]
     raw_id_fields = ("regulation",)
 
 
 @admin.register(Clause)
 class ClauseAdmin(admin.ModelAdmin):
-    list_display = ("number", "article")
+    list_display = ("title", "article")
     list_filter = ("article__regulation",)
-    search_fields = ("number", "text", "article__number")
+    search_fields = ("title", "text", "article__title")
     raw_id_fields = ("article",)
