@@ -1,0 +1,124 @@
+# Persian translations for regulation app.
+# Copyright (C) 2023
+# This file is distributed under the same license as the regulation package.
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-09 00:00+0000\n"
+"PO-Revision-Date: 2023-03-09 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Persian\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: models.py:12
+msgid "Regulation Title"
+msgstr "عنوان قانون"
+
+#: models.py:13
+msgid "Regulation Number"
+msgstr "شماره قانون"
+
+#: models.py:14
+msgid "Approval Date"
+msgstr "تاریخ تصویب"
+
+#: models.py:15
+msgid "Implementation Date"
+msgstr "تاریخ اجرا"
+
+#: models.py:16
+msgid "Description"
+msgstr "توضیحات"
+
+#: models.py:17
+msgid "Is Active"
+msgstr "وضعیت فعال بودن قانون"
+
+#: models.py:20
+msgid "References to other regulations"
+msgstr "ارجاع به قوانین دیگر"
+
+#: models.py:27
+msgid "Regulation"
+msgstr "قانون"
+
+#: models.py:28
+msgid "Regulations"
+msgstr "قوانین"
+
+#: models.py:41
+msgid "Related Regulation"
+msgstr "قانون مربوطه"
+
+#: models.py:42
+msgid "Article Number"
+msgstr "شماره ماده"
+
+#: models.py:43
+msgid "Article Text"
+msgstr "متن ماده"
+
+#: models.py:44 models.py:70
+msgid "Display Order"
+msgstr "ترتیب نمایش"
+
+#: models.py:47
+msgid "References to other articles"
+msgstr "ارجاع به مواد دیگر"
+
+#: models.py:52 models.py:55
+msgid "Article"
+msgstr "ماده قانونی"
+
+#: models.py:56
+msgid "Articles"
+msgstr "مواد قانونی"
+
+#: models.py:68
+msgid "Related Article"
+msgstr "ماده مربوطه"
+
+#: models.py:69
+msgid "Clause Number"
+msgstr "شماره بند"
+
+#: models.py:70
+msgid "Clause Text"
+msgstr "متن بند"
+
+#: models.py:76 models.py:79
+msgid "Clause"
+msgstr "بند"
+
+#: models.py:80
+msgid "Clauses"
+msgstr "بندها"
+
+#: models.py:93
+msgid "Source Regulation"
+msgstr "قانون مبدأ"
+
+#: models.py:96
+msgid "Target Regulation"
+msgstr "قانون مقصد"
+
+#: models.py:97
+msgid "Reference Context"
+msgstr "توضیحات ارجاع"
+
+#: models.py:99
+msgid "Reference Text (e.g., According to Article 10 of...)"
+msgstr "متن ارجاع (مثلا: مطابق با ماده ۱۰ قانون...)"
+
+#: models.py:105
+msgid "Regulation Reference"
+msgstr "ارجاع قانونی"
+
+#: models.py:106
+msgid "Regulation References"
+msgstr "ارجاعات قانونی" 
