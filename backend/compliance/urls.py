@@ -3,5 +3,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # path("", views.index, name="index"),
+    path("api/insert/", views.insert, name="insert"),
+    path("api/query/", views.query, name="query"),
 ]

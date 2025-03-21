@@ -2,9 +2,13 @@ name: Black Linter
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'backend/**/*.py'
   pull_request:
+    branches:
+      - main
     paths:
       - 'backend/**/*.py'
 
