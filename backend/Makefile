@@ -11,6 +11,7 @@ help:
 	@echo "  make run-admin-local   - Run the admin interface locally"
 	@echo "  make import-rules      - Import rules data from JSON file into GraphRAG service (BATCH_SIZE=50 LIMIT=200)"
 
+
 format-check:
 	@echo "Checking Python code formatting with Black..."
 	black --check .
