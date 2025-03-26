@@ -299,4 +299,4 @@ pyrightconfig.json
 # End of https://www.toptal.com/developers/gitignore/api/python,django,macos
 
 # Project specific
-backend/compliance/data/index_default/
+backend/data/
