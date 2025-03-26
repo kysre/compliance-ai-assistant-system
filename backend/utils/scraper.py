@@ -1,15 +1,15 @@
-from concurrent.futures import ThreadPoolExecutor
 import json
 import math
 import os
-import time
 import re
+import time
+from concurrent.futures import ThreadPoolExecutor
 
-from bs4 import BeautifulSoup
 import pandas as pd
+from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
 
 

@@ -1,7 +1,7 @@
 import asyncio
-import nest_asyncio
 import os
 
+import nest_asyncio
 from lightrag import LightRAG
 from lightrag.kg.shared_storage import initialize_pipeline_status
 from lightrag.llm.llama_index_impl import (
