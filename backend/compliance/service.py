@@ -1,7 +1,7 @@
 import asyncio
-import nest_asyncio
 import os
 
+import nest_asyncio
 from lightrag import LightRAG
 from lightrag.kg.shared_storage import initialize_pipeline_status
 from lightrag.llm.llama_index_impl import (
@@ -21,9 +21,6 @@ GRAPH_RAG_MODES = ["naive", "local", "global", "hybrid"]
 class GraphRagService:
     def __init__(self):
         # Model configuration
-        current_file_dir = os.path.dirname(os.path.abspath(__file__))
-        # TODO: make this configurable so that the chosen directory is a docker volume
-        self.working_dir = os.path.join(current_file_dir, "..", "data", "index_default")
         self.llm_model = os.environ.get("LLM_MODEL", "gpt-4o")
         self.embedding_model = os.environ.get(
             "EMBEDDING_MODEL", "text-embedding-3-large"
@@ -33,6 +30,13 @@ class GraphRagService:
         )
         self.litellm_url = os.environ.get("LITELLM_URL", "http://localhost:4000")
         self.litellm_key = os.environ.get("LITELLM_KEY", "")
+        self.working_dir = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            "..",
+            "data",
+            "index",
+            f"{self.llm_model}_{self.embedding_model}",
+        )
         if not os.path.exists(self.working_dir):
             os.makedirs(self.working_dir, exist_ok=True)
 

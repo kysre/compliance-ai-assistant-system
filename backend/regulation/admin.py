@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Regulation, Article, Clause
+
+from .models import Article, Clause, Regulation
 
 
 class ClauseInline(admin.TabularInline):
