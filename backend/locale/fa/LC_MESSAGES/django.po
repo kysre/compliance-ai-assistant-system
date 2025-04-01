@@ -15,17 +15,34 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: models.py:12
+# New translations for Regulation model
+msgid "Unique Identifier (IDS)"
+msgstr "شناسه منحصر به فرد (IDS)"
+
 msgid "Regulation Title"
 msgstr "عنوان قانون"
+
+msgid "Approval Date"
+msgstr "تاریخ تصویب"
+
+msgid "Approval Authority"
+msgstr "مرجع تصویب"
+
+msgid "Regulation Link"
+msgstr "لینک قانون"
+
+msgid "Regulation Text"
+msgstr "متن قانون"
+
+msgid "Source Link"
+msgstr "لینک منبع"
+
+msgid "Content"
+msgstr "محتوا"
 
 #: models.py:13
 msgid "Regulation Number"
 msgstr "شماره قانون"
-
-#: models.py:14
-msgid "Approval Date"
-msgstr "تاریخ تصویب"
 
 #: models.py:15
 msgid "Implementation Date"
