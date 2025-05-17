@@ -25,9 +25,10 @@ class Scraper:
         Returns:
             str: Path to the GeckoDriver executable
         """
-        if cls._driver_path is None:
-            cls._driver_path = GeckoDriverManager().install()
-        return cls._driver_path
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        data_dir = os.path.join(current_dir, "..", "data")
+        os.makedirs(data_dir, exist_ok=True)
+        return os.path.join(data_dir, "geckodriver")
 
     @classmethod
     def get_all_rules_metadata_path(cls) -> str:
@@ -159,7 +160,7 @@ class Scraper:
     def extract_all_rules_metadata(
         self, batch_size: int = 500, total_count: int = 162302
     ):
-        all_rules_data = []
+        all_rules_metadata = []
         total_pages = total_count // batch_size + 1
 
         print(f"Starting to extract data from {total_pages} pages")
@@ -173,11 +174,11 @@ class Scraper:
             soup = self.get_page_with_selenium(all_rules_url)
             if soup:
                 rules_data = self.extract_rules_data_from_table(soup)
-                all_rules_data.extend(rules_data)
+                all_rules_metadata.extend(rules_data)
 
                 page_time = time.time() - page_start_time
                 print(f"  Page {page} completed in {page_time:.2f} seconds")
-                print(f"  Total rules collected so far: {len(all_rules_data)}")
+                print(f"  Total rules collected so far: {len(all_rules_metadata)}")
             else:
                 print(f"  Failed to extract data from page {page}")
 
@@ -195,9 +196,9 @@ class Scraper:
         print(
             f"Extraction completed in {total_time:.2f} seconds ({total_time/60:.2f} minutes)"
         )
-        print(f"Total rules collected: {len(all_rules_data)}")
+        print(f"Total rules collected: {len(all_rules_metadata)}")
 
-        return all_rules_data
+        return all_rules_metadata
 
 
 def get_id_from_link(link: str) -> str:
@@ -256,6 +257,8 @@ def save_rules_data(
     total_rules = len(rules_df)
     total_batches = math.ceil(total_rules / batch_size)
     all_rules_data = []
+    with open(Scraper.get_all_rules_data_path(), "r", encoding="utf-8") as f:
+        all_rules_data = json.load(f)
 
     # Create batches of rules
     batches = []
@@ -328,19 +331,19 @@ def save_rules_data(
 
 def save_all_rules_metadata():
     scraper = Scraper(wait_time=10)
-    all_rules_data = scraper.extract_all_rules_metadata()
-    print(f"scraped {len(all_rules_data)} rules")
+    all_rules_metadata = scraper.extract_all_rules_metadata()
+    print(f"scraped {len(all_rules_metadata)} rules")
     with open(Scraper.get_all_rules_metadata_path(), "w", encoding="utf-8") as f:
-        json.dump(all_rules_data, f, indent=4, ensure_ascii=False)
+        json.dump(all_rules_metadata, f, indent=4, ensure_ascii=False)
 
 
 def get_all_rules_metadata_df() -> pd.DataFrame:
     with open(Scraper.get_all_rules_metadata_path(), "r", encoding="utf-8") as f:
-        all_rules_data = json.load(f)
-    return pd.DataFrame(all_rules_data)
+        all_rules_metadata = json.load(f)
+    return pd.DataFrame(all_rules_metadata)
 
 
 if __name__ == "__main__":
     df = get_all_rules_metadata_df()
     rdf = df[df["is_related"] == "True"]
-    # save_rules_data(rdf, batch_size=10, max_workers=10)
+    # save_rules_data(rdf, batch_size=10, max_workers=16)
