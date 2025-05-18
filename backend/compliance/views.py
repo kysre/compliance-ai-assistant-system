@@ -1,6 +1,7 @@
 import json
 import time
 
+from django.db import transaction
 from lightrag import QueryParam
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -167,12 +168,13 @@ def batch_insert(request):
                 status=status.HTTP_200_OK,
             )
 
-        rag_service.insert(
-            documents,
-            ids=ids,
-            file_paths=file_paths,
-        )
-        Regulation.objects.bulk_create(regulation_instances)
+        with transaction.atomic():
+            rag_service.insert(
+                documents,
+                ids=ids,
+                file_paths=file_paths,
+            )
+            Regulation.objects.bulk_create(regulation_instances)
 
         return Response(
             {
