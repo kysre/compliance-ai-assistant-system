@@ -36,15 +36,18 @@ install:
 
 messages:
 	python manage.py compilemessages -l fa
-
+	
 migrations:
 	DJANGO_SETTINGS_MODULE="compliance_ai_assistant.settings.development" python manage.py makemigrations
 	DJANGO_SETTINGS_MODULE="compliance_ai_assistant.settings.development" python manage.py migrate
 
 run-admin-local:
-	DJANGO_SETTINGS_MODULE="compliance_ai_assistant.settings.development" python manage.py runserver
+	. ./.env
+	python manage.py migrate
+	python manage.py runserver
 
 import-rules:
 	@echo "Importing rules data into GraphRAG service..."
-	DJANGO_SETTINGS_MODULE="compliance_ai_assistant.settings.development" python manage.py import_rules $(if $(BATCH_SIZE),--batch-size=$(BATCH_SIZE),) $(if $(LIMIT),--limit=$(LIMIT),)
+	. ./.env
+	python manage.py import_rules $(if $(BATCH_SIZE),--batch-size=$(BATCH_SIZE),) $(if $(LIMIT),--limit=$(LIMIT),)
 	@echo "Import process completed!"

@@ -32,7 +32,7 @@ def insert(request):
         validated_data = serializer.validated_data
         rag_service = get_graph_rag_service()
         rag_service.insert(
-            documents=[
+            [
                 str(
                     {
                         "title": validated_data["title"],
@@ -133,7 +133,7 @@ def batch_insert(request):
 
         # Insert all documents into RAG service
         rag_service.insert(
-            documents=documents,
+            documents,
             ids=ids,
             file_paths=file_paths,
         )

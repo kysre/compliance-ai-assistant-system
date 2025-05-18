@@ -35,7 +35,7 @@ class GraphRagService:
             "..",
             "data",
             "index",
-            f"{self.llm_model}_{self.embedding_model}",
+            f"{self.embedding_model}",
         )
         if not os.path.exists(self.working_dir):
             os.makedirs(self.working_dir, exist_ok=True)
@@ -97,6 +97,10 @@ class GraphRagService:
                 max_token_size=self.embedding_max_token_size,
                 func=self.embedding_func,
             ),
+            kv_storage="MongoKVStorage",
+            vector_storage="MongoVectorDBStorage",
+            graph_storage="Neo4JStorage",
+            doc_status_storage="JsonDocStatusStorage",
         )
         await rag.initialize_storages()
         await initialize_pipeline_status()
