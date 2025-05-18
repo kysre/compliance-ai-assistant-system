@@ -7,65 +7,43 @@ from rest_framework.response import Response
 
 from .service import GRAPH_RAG_MODES, get_graph_rag_service
 from .models import Regulation
+from .serializers import RegulationSerializer
 
 
 @api_view(["POST"])
 def insert(request):
     """
-    API endpoint to insert a document into the GraphRAG service.
+    API endpoint to insert a document into the GraphRAG service and database.
 
-    Expects a JSON payload with:
+    Expects a JSON payload with regulation data including:
     {
-        "document": "The document to insert into the GraphRAG service"
+        "identifier": "Unique identifier",
+        "title": "Regulation title",
+        "text": "Full regulation text",
+        "date": "Regulation date",
+        "authority": "Approving authority",
+        "link": "URL to regulation"
     }
     """
-    identifier = request.data.get("id")
-    if not identifier:
-        return Response(
-            {"error": "IDS is required"}, status=status.HTTP_400_BAD_REQUEST
-        )
-    text = request.data.get("text")
-    if not text:
-        return Response(
-            {"error": "text is required"}, status=status.HTTP_400_BAD_REQUEST
-        )
-    title = request.data.get("title")
-    if not title:
-        return Response(
-            {"error": "title is required"}, status=status.HTTP_400_BAD_REQUEST
-        )
-    date = request.data.get("date", "")
-    date = date.replace("/", "-")
-    if not date:
-        return Response(
-            {"error": "date is required"}, status=status.HTTP_400_BAD_REQUEST
-        )
-    authority = request.data.get("authority", "")
-    link = request.data.get("link", "")
+    serializer = RegulationSerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     try:
-        # Get the RAG service
+        validated_data = serializer.validated_data
         rag_service = get_graph_rag_service()
-        # Insert the document into the GraphRAG service
         rag_service.insert(
             str(
                 {
-                    "title": title,
-                    "text": text,
-                    "authority": authority,
-                    "date": date,
+                    "title": validated_data["title"],
+                    "text": validated_data["text"],
+                    "authority": validated_data["authority"],
+                    "date": validated_data["date"],
                 }
             ),
-            ids=[identifier],
-            file_paths=[link],
+            ids=[validated_data["identifier"]],
+            file_paths=[validated_data.get("link", "")],
         )
-        Regulation.objects.create(
-            identifier=identifier,
-            title=title,
-            date=date,
-            authority=authority,
-            link=link,
-            text=text,
-        )
+        serializer.save()
         return Response(
             {"message": "Document inserted successfully"}, status=status.HTTP_200_OK
         )
