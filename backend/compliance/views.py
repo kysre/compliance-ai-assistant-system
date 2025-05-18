@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from .service import GRAPH_RAG_MODES, get_graph_rag_service
+from .models import Regulation
 
 
 @api_view(["POST"])
@@ -18,16 +19,53 @@ def insert(request):
         "document": "The document to insert into the GraphRAG service"
     }
     """
-    document = request.data.get("document", None)
-    if not document:
+    identifier = request.data.get("id")
+    if not identifier:
         return Response(
-            {"error": "document is required"}, status=status.HTTP_400_BAD_REQUEST
+            {"error": "IDS is required"}, status=status.HTTP_400_BAD_REQUEST
         )
+    text = request.data.get("text")
+    if not text:
+        return Response(
+            {"error": "text is required"}, status=status.HTTP_400_BAD_REQUEST
+        )
+    title = request.data.get("title")
+    if not title:
+        return Response(
+            {"error": "title is required"}, status=status.HTTP_400_BAD_REQUEST
+        )
+    date = request.data.get("date", "")
+    date = date.replace("/", "-")
+    if not date:
+        return Response(
+            {"error": "date is required"}, status=status.HTTP_400_BAD_REQUEST
+        )
+    authority = request.data.get("authority", "")
+    link = request.data.get("link", "")
     try:
         # Get the RAG service
         rag_service = get_graph_rag_service()
         # Insert the document into the GraphRAG service
-        rag_service.insert(document)
+        rag_service.insert(
+            str(
+                {
+                    "title": title,
+                    "text": text,
+                    "authority": authority,
+                    "date": date,
+                }
+            ),
+            ids=[identifier],
+            file_paths=[link],
+        )
+        Regulation.objects.create(
+            identifier=identifier,
+            title=title,
+            date=date,
+            authority=authority,
+            link=link,
+            text=text,
+        )
         return Response(
             {"message": "Document inserted successfully"}, status=status.HTTP_200_OK
         )
