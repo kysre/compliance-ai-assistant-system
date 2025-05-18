@@ -6,6 +6,7 @@ anyio==4.9.0
 anytree==2.12.1
 ascii_colors==0.5.2
 asgiref==3.8.1
+asyncpg==0.30.0
 attrs==25.3.0
 autograd==1.7.0
 beartype==0.18.5
@@ -15,6 +16,7 @@ certifi==2025.1.31
 cffi==1.17.1
 charset-normalizer==3.4.1
 click==8.1.8
+configparser==7.2.0
 contourpy==1.3.1
 cycler==0.12.1
 dataclasses-json==0.6.7
@@ -26,6 +28,7 @@ Django==5.1.7
 django-cors-headers==4.7.0
 django-jalali==7.4.0
 djangorestframework==3.15.2
+dnspython==2.7.0
 filelock==3.18.0
 filetype==1.2.0
 fonttools==4.56.0
@@ -80,10 +83,12 @@ llvmlite==0.44.0
 MarkupSafe==3.0.2
 marshmallow==3.26.1
 matplotlib==3.10.1
+motor==3.7.1
 mpmath==1.3.0
 multidict==6.2.0
 mypy-extensions==1.0.0
 nano-vectordb==0.0.4.3
+neo4j==5.28.1
 nest-asyncio==1.6.0
 networkx==3.4.2
 nltk==3.9.1
@@ -105,6 +110,7 @@ psycopg2-binary==2.9.10
 pycparser==2.22
 pydantic==2.10.6
 pydantic_core==2.27.2
+pymongo==4.13.0
 pynndescent==0.5.13
 pyparsing==3.2.1
 pypdf==5.4.0
@@ -112,6 +118,7 @@ PySocks==1.7.1
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pytz==2025.1
+pyuca==1.2
 PyYAML==6.0.2
 referencing==0.36.2
 regex==2024.11.6
@@ -153,5 +160,6 @@ webdriver-manager==4.0.2
 websocket-client==1.8.0
 wrapt==1.17.2
 wsproto==1.2.0
+XlsxWriter==3.2.3
 yarl==1.18.3
 zipp==3.21.0

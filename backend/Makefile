@@ -51,3 +51,20 @@ import-rules:
 	. ./.env
 	python manage.py import_rules $(if $(BATCH_SIZE),--batch-size=$(BATCH_SIZE),) $(if $(LIMIT),--limit=$(LIMIT),)
 	@echo "Import process completed!"
+
+run-production-requirement:
+	cd ../deployment && \
+	docker compose -f docker-compose.yaml up -d && \
+	cd ../backend
+
+run-production: run-production-requirement
+	export DJANGO_SETTINGS_MODULE=compliance_ai_assistant.settings.production && \
+	export ALLOWED_HOSTS=* && \
+	export DATABASE_NAME=compliance_ai_assistant && \
+	export DATABASE_USER=postgres && \
+	export DATABASE_PASSWORD=postgres && \
+	export DATABASE_HOST=localhost && \
+	export DATABASE_PORT=5432 && \
+	python manage.py makemigrations && \
+	python manage.py migrate && \
+	python manage.py runserver
