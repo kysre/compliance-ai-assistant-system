@@ -3,7 +3,7 @@
 help:
 	@echo "Available commands:"
 	@echo "  make format-check      - Check if Python code needs formatting without making changes"
-	@echo "  make format            - Format Python code using Black"
+	@echo "  make format-fix        - Format Python code using Black"
 	@echo "  make imports-check     - Check Python import order using isort"
 	@echo "  make imports-fix       - Fix Python import order using isort"
 	@echo "  make messages          - Compile translation messages"
