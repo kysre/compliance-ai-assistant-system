@@ -31,6 +31,11 @@ def insert(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     try:
         validated_data = serializer.validated_data
+        if Regulation.objects.filter(identifier=validated_data["identifier"]).exists():
+            return Response(
+                {"message": "Regulation with this identifier already exists"},
+                status=status.HTTP_200_OK,
+            )
         rag_service = get_graph_rag_service()
         rag_service.insert(
             json.dumps(
@@ -87,7 +92,7 @@ def batch_insert(request):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    results = {"successful": [], "failed": []}
+    results = {"successful": [], "failed": [], "skipped": []}
 
     # Validate all regulations first
     valid_regulations = []
@@ -114,9 +119,20 @@ def batch_insert(request):
         documents = []
         ids = []
         file_paths = []
+        regulation_instances = []
 
+        # Check for existing regulations and filter them out
         for serializer in valid_regulations:
             validated_data = serializer.validated_data
+            identifier = validated_data["identifier"]
+
+            # Skip if regulation with this identifier already exists
+            if Regulation.objects.filter(identifier=identifier).exists():
+                results["skipped"].append(
+                    {"identifier": identifier, "reason": "Already exists"}
+                )
+                continue
+
             documents.append(
                 json.dumps(
                     {
@@ -127,35 +143,40 @@ def batch_insert(request):
                     }
                 )
             )
-            ids.append(validated_data["identifier"])
+            ids.append(identifier)
             file_paths.append(validated_data.get("link", ""))
 
-        # Insert all documents into RAG service
+            instance = Regulation(
+                identifier=identifier,
+                title=validated_data["title"],
+                text=validated_data["text"],
+                date=validated_data["date"],
+                authority=validated_data["authority"],
+                link=validated_data.get("link", ""),
+            )
+            regulation_instances.append(instance)
+            results["successful"].append(identifier)
+
+        # If no new regulations to insert, return early
+        if not documents:
+            return Response(
+                {
+                    "message": "No new regulations to insert, all already exist",
+                    "results": results,
+                },
+                status=status.HTTP_200_OK,
+            )
+
         rag_service.insert(
             documents,
             ids=ids,
             file_paths=file_paths,
         )
-
-        # Save all valid regulations to database in bulk
-        regulation_instances = []
-        for serializer in valid_regulations:
-            instance = Regulation(
-                identifier=serializer.validated_data["identifier"],
-                title=serializer.validated_data["title"],
-                text=serializer.validated_data["text"],
-                date=serializer.validated_data["date"],
-                authority=serializer.validated_data["authority"],
-                link=serializer.validated_data.get("link", ""),
-            )
-            regulation_instances.append(instance)
-            results["successful"].append(serializer.validated_data["identifier"])
-
         Regulation.objects.bulk_create(regulation_instances)
 
         return Response(
             {
-                "message": f"Successfully inserted {len(valid_regulations)} of {len(regulations_data)} documents",
+                "message": f"Successfully inserted {len(regulation_instances)} of {len(regulations_data)} documents, {len(results['skipped'])} documents skipped",
                 "results": results,
             },
             status=status.HTTP_200_OK,
