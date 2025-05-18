@@ -1,3 +1,4 @@
+import json
 import time
 
 from lightrag import QueryParam
@@ -32,16 +33,14 @@ def insert(request):
         validated_data = serializer.validated_data
         rag_service = get_graph_rag_service()
         rag_service.insert(
-            [
-                str(
-                    {
-                        "title": validated_data["title"],
-                        "text": validated_data["text"],
-                        "authority": validated_data["authority"],
-                        "date": validated_data["date"],
-                    }
-                )
-            ],
+            json.dumps(
+                {
+                    "title": validated_data["title"],
+                    "text": validated_data["text"],
+                    "authority": validated_data["authority"],
+                    "date": validated_data["date"],
+                }
+            ),
             ids=[validated_data["identifier"]],
             file_paths=[validated_data.get("link", "")],
         )
@@ -119,7 +118,7 @@ def batch_insert(request):
         for serializer in valid_regulations:
             validated_data = serializer.validated_data
             documents.append(
-                str(
+                json.dumps(
                     {
                         "title": validated_data["title"],
                         "text": validated_data["text"],
@@ -138,10 +137,21 @@ def batch_insert(request):
             file_paths=file_paths,
         )
 
-        # Save all valid regulations to database
+        # Save all valid regulations to database in bulk
+        regulation_instances = []
         for serializer in valid_regulations:
-            serializer.save()
+            instance = Regulation(
+                identifier=serializer.validated_data["identifier"],
+                title=serializer.validated_data["title"],
+                text=serializer.validated_data["text"],
+                date=serializer.validated_data["date"],
+                authority=serializer.validated_data["authority"],
+                link=serializer.validated_data.get("link", ""),
+            )
+            regulation_instances.append(instance)
             results["successful"].append(serializer.validated_data["identifier"])
+
+        Regulation.objects.bulk_create(regulation_instances)
 
         return Response(
             {
