@@ -97,10 +97,10 @@ class GraphRagService:
                 max_token_size=self.embedding_max_token_size,
                 func=self.embedding_func,
             ),
-            kv_storage="MongoKVStorage",
-            vector_storage="MongoVectorDBStorage",
+            kv_storage="PGKVStorage",
+            vector_storage="PGVectorStorage",
             graph_storage="Neo4JStorage",
-            doc_status_storage="JsonDocStatusStorage",
+            doc_status_storage="PGDocStatusStorage",
         )
         await rag.initialize_storages()
         await initialize_pipeline_status()
