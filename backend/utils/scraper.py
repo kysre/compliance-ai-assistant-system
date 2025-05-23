@@ -4,6 +4,7 @@ import os
 import re
 import time
 from concurrent.futures import ThreadPoolExecutor
+from typing import List
 
 import pandas as pd
 from bs4 import BeautifulSoup
@@ -343,7 +344,33 @@ def get_all_rules_metadata_df() -> pd.DataFrame:
     return pd.DataFrame(all_rules_metadata)
 
 
+def extract_single_rule_data_from_link(
+    link: str, title: str, date: str, authority: str
+) -> List[dict]:
+    scraper = Scraper(wait_time=30)
+    rule_text = scraper.get_rule_text_from_link(link)
+    scraper.driver.quit()
+    return [
+        {
+            "id": get_id_from_link(link),
+            "title": title,
+            "date": date,
+            "authority": authority,
+            "link": link,
+            "text": rule_text,
+        }
+    ]
+
+
 if __name__ == "__main__":
+    # data = extract_single_rule_data_from_link(
+    #     "https://qavanin.ir/Law/TreeText/?IDS=6623702055317218729",
+    #     "قانون اساسي جمهوري اسلامي ايران",
+    #     "1358/09/12",
+    #     "همه پرسي",
+    # )
+    # with open("constituion-data.json", "w", encoding="utf-8") as f:
+    #     json.dump(data, f, indent=4, ensure_ascii=False)
     df = get_all_rules_metadata_df()
     rdf = df[df["is_related"] == "True"]
     # save_rules_data(rdf, batch_size=10, max_workers=16)
