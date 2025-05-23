@@ -300,3 +300,4 @@ pyrightconfig.json
 
 # Project specific
 backend/data/
+databases/
