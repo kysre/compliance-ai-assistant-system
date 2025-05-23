@@ -1,0 +1,122 @@
+---
+description: 
+globs: *.py
+alwaysApply: false
+---
+# Python & Django Best Practices
+
+## Project Structure
+- Use Django's default project layout (`manage.py` at the root, project-level app, and then individual apps)
+  - Or, consider a `src/` layout where the Django project and apps reside within `src/`
+- Place tests in `tests/` directory within each app, or a top-level `tests/` directory.
+- Keep settings organized (e.g., `settings/base.py`, `settings/development.py`, `settings/production.py`)
+- Store requirements in `requirements.txt` or `pyproject.toml` (with Poetry or PDM)
+- Place app-specific static files in `<app_name>/static/<app_name>/`
+- Place project-wide static files in a top-level `static/` directory (configure `STATICFILES_DIRS`)
+- Place app-specific templates in `<app_name>/templates/<app_name>/`
+- Place project-wide templates in a top-level `templates/` directory (configure `TEMPLATES` in `settings.py`)
+
+## Code Style
+- Follow Black code formatting
+- Use isort for import sorting
+- Follow PEP 8 naming conventions:
+  - snake_case for functions, variables, and template tags/filters
+  - PascalCase for classes (including Models, Forms, Views)
+  - UPPER_CASE for constants and settings
+- Maximum line length of 88 characters (Black default)
+- Use absolute imports within your Django project/apps where clear. Relative imports are common and accepted for intra-app imports.
+
+## Type Hints
+- Use type hints for all function/method parameters and returns where practical
+- Import types from `typing` module
+- Use `Optional[Type]` or `Type | None` (Python 3.10+)
+- Use `TypeVar` for generic types
+- Define custom types in `types.py` if needed, or within relevant modules
+- Use `Protocol` for duck typing
+
+## Django Structure
+- Organize code into reusable Django apps
+- Use Class-Based Views (CBVs) or Function-Based Views (FBVs) appropriately. CBVs for more complex, reusable logic.
+- Utilize Django's built-in ORM for database interactions
+- Implement proper error handling using Django's exception handling and custom error views (403, 404, 500)
+- Use Django's built-in authentication system or extend it
+- Structure views, models, forms, and templates with clear separation of concerns
+
+## Database (Django ORM)
+- Use Django's ORM effectively (QuerySets, Managers, model methods)
+- Implement database migrations with Django's built-in `makemigrations` and `migrate`
+- Understand database connection pooling if using external tools (Django handles basic connections)
+- Define models in `models.py` within each app
+- Implement proper model relationships (ForeignKey, ManyToManyField, OneToOneField)
+- Use proper indexing strategies (`Meta.indexes`, `db_index=True`)
+- Utilize database transactions where appropriate (`django.db.transaction.atomic`)
+
+## Authentication & Authorization
+- Use Django's built-in authentication system (`django.contrib.auth`)
+- For OAuth, consider packages like `django-allauth` or `python-social-auth`
+- Django handles password hashing securely by default (PBKDF2, bcrypt, argon2)
+- Use Django's session framework securely (see settings for session cookies)
+- Implement CSRF protection (Django provides this by default, ensure `{% csrf_token %}` is in forms)
+- Use Django's permission and group system for role-based access control
+
+## API Design (with Django REST framework - DRF)
+- Use Django REST framework (DRF) for building REST APIs
+- Implement proper request data validation using DRF Serializers
+- Use appropriate HTTP status codes (DRF helps with this)
+- Handle errors consistently using DRF's exception handling
+- Use DRF's Renderers for proper response formats (JSON, XML, etc.)
+- Implement DRF's throttling for rate limiting
+
+## Testing
+- Use Django's testing framework (based on `unittest`) or pytest with `pytest-django`
+- Write tests for models, views, forms, and utility functions
+- Use `coverage.py` (often via `pytest-cov`) for test coverage
+- Implement proper fixtures (Django's test fixtures or `pytest` fixtures)
+- Use `unittest.mock` or `pytest-mock` for mocking
+- Test all business logic, including edge cases and error scenarios
+
+## Security
+- Use HTTPS in production (configure web server)
+- Implement proper CORS headers if your API is accessed from different domains (e.g., using `django-cors-headers`)
+- Sanitize user inputs (Django templates auto-escape by default; be cautious with `mark_safe`. Django Forms provide validation and cleaning)
+- Use Django's security features and follow its security best practices (e.g., `SECRET_KEY`, `DEBUG` in production)
+- Implement proper logging for security events
+- Follow OWASP Top 10 guidelines and Django's security recommendations
+
+## Performance
+- Use Django's caching framework effectively (template fragment caching, view caching, low-level cache API)
+- Implement database query optimization (use `select_related`, `prefetch_related`, `only`, `defer`, `django-debug-toolbar` to inspect queries)
+- Ensure database connection settings are appropriate for your load
+- Implement proper pagination for lists of objects (Django Paginator or DRF pagination)
+- Use background tasks for long-running operations (Celery with Redis/RabbitMQ)
+- Monitor application performance (e.g., using tools like Sentry, New Relic, or Django Debug Toolbar in development)
+
+## Error Handling
+- Create custom Django exception classes if needed
+- Use `try-except` blocks for specific error handling
+- Implement comprehensive logging using Python's `logging` module (configured in `settings.py`)
+- Return user-friendly error pages (customize 403, 404, 500 templates) or API error responses
+- Handle model validation errors (`ValidationError`) and form validation errors
+- Provide clear error messages
+
+## Documentation
+- Use Google-style or reStructuredText docstrings (Sphinx is common for Django project docs)
+- Document all public APIs, models, and complex business logic
+- Keep `README.md` updated with setup, deployment, and usage instructions
+- Use proper inline comments for non-obvious code
+- Consider generating API documentation (e.g., DRF's browsable API, or tools like Swagger/OpenAPI with `drf-spectacular` or `drf-yasg`)
+- Document environment setup and important settings
+
+## Development Workflow
+- Use virtual environments (`venv`, `virtualenv`, Poetry, PDM)
+- Implement pre-commit hooks (e.g., for Black, isort, Flake8)
+- Use a proper Git workflow (e.g., Gitflow, feature branches)
+- Follow semantic versioning for your project or reusable apps
+- Use CI/CD practices (e.g., GitHub Actions, GitLab CI, Jenkins)
+- Implement structured logging throughout the application
+
+## Dependencies
+- Pin dependency versions in `requirements.txt` or `pyproject.toml`/`poetry.lock`/`pdm.lock`
+- Separate development dependencies (e.g., `requirements-dev.txt` or `[tool.poetry.group.dev.dependencies]` in `pyproject.toml`)
+- Review package versions before upgrading
+- Regularly update dependencies and audit for security vulnerabilities (e.g., using `pip-audit` or GitHub Dependabot)
