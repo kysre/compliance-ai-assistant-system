@@ -4,6 +4,7 @@ import os
 import re
 import time
 from concurrent.futures import ThreadPoolExecutor
+from typing import List
 
 import pandas as pd
 from bs4 import BeautifulSoup
@@ -98,7 +99,6 @@ class Scraper:
             self.driver.get(url)
             time.sleep(self.wait_time)
             page_source = self.driver.page_source
-            print(page_source)
             soup = BeautifulSoup(page_source, "html.parser")
             return soup
         except Exception as e:
@@ -346,7 +346,7 @@ def get_all_rules_metadata_df() -> pd.DataFrame:
 
 def extract_single_rule_data_from_link(
     link: str, title: str, date: str, authority: str
-) -> dict:
+) -> List[dict]:
     scraper = Scraper(wait_time=30)
     rule_text = scraper.get_rule_text_from_link(link)
     scraper.driver.quit()
