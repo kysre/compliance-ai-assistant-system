@@ -13,7 +13,7 @@ services:
     restart: unless-stopped
 
   db-neo4j:
-    image: neo4j:latest
+    image: neo4j:2025.04.0-community-bullseye
     volumes:
         - neo4j_data:/data
     environment:
@@ -22,6 +22,18 @@ services:
       - "7474:7474"
       - "7687:7687"
     restart: always
+
+  db-chroma:
+    image: chromadb/chroma:1.0.9
+    volumes:
+      - chroma_data:/data
+    environment:
+      - CHROMA_SERVER_AUTH_CREDENTIALS=token
+      - CHROMA_SERVER_AUTH_TOKEN_TRANSPORT_HEADER=AUTHORIZATION
+      - CHROMA_SERVER_AUTH_CREDENTIALS_PROVIDER=chromadb.auth.token.TokenConfigServerAuthCredentialsProvider
+      - CHROMA_SERVER_AUTH_PROVIDER=chromadb.auth.token.TokenAuthServerProvider
+    ports:
+      - "8000:8000"
 
   # backend:
   #   build:
@@ -61,6 +73,12 @@ volumes:
       type: none
       o: bind
       device: ../databases/db-neo4j
+  chroma_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ../databases/db-chroma
   static:
     driver: local
   media:
