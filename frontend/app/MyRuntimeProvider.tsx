@@ -10,27 +10,27 @@ import {
 const MyModelAdapter: ChatModelAdapter = {
     async run({ messages, abortSignal }) {
         // TODO replace with your own API
-        console.log(messages)
-        
-        const result = await fetch("localhost:8080/compliance/api/query/", {
-            method: "GET",
+        // console.log(messages)
+        const result = await fetch("http://127.0.0.1:8080/compliance/api/query/", {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             // forward the messages in the chat to the API
             body: JSON.stringify({
-                messages,
+                "query": messages[messages.length - 1].content[0].text,
             }),
             // if the user hits the "cancel" button or escape keyboard key, cancel the request
             signal: abortSignal,
         });
 
         const data = await result.json();
+        // console.log(data)
         return {
             content: [
                 {
                     type: "text",
-                    text: data[0].result,
+                    text: data.results[0].result,
                 },
             ],
         };
