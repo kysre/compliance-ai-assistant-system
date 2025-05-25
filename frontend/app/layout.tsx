@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { vazirMatn } from 'next-persian-fonts/vazirmatn'
-import { MyRuntimeProvider } from "@/app/MyRuntimeProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -24,15 +23,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // TODO: move sidebar to here & get the default open state from the cookie
   return (
-    <MyRuntimeProvider>
-      <html lang="en">
-        <body
-          className={`${vazirMatn.className} ${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          {children}
-        </body>
-      </html>
-    </MyRuntimeProvider>
+    <html lang="en">
+      <body
+        className={`${vazirMatn.className} ${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        {children}
+      </body>
+    </html>
   );
 }
