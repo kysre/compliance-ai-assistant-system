@@ -200,7 +200,7 @@ def batch_insert(request):
         )
 
 
-@api_view(["GET"])
+@api_view(["POST"])
 def query(request):
     """
     API endpoint to query the GraphRAG service.
