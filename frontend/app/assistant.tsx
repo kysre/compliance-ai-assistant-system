@@ -5,6 +5,8 @@ import { AppSidebar } from "@/components/app-sidebar"
 import { Thread } from "@/components/assistant-ui/thread";
 
 import { MyRuntimeProvider } from "@/app/MyRuntimeProvider";
+import { Separator } from "@/components/ui/separator";
+import { ModeSelector } from "@/components/mode-selector";
 
 
 export const Assistant = () => {
@@ -13,8 +15,10 @@ export const Assistant = () => {
             <SidebarProvider>
                 <AppSidebar />
                 <SidebarInset>
-                    <header>
+                    <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
                         <SidebarTrigger />
+                        <Separator orientation="vertical" className="mx-2 h-4" />
+                        <ModeSelector />
                     </header>
                     <Thread />
                 </SidebarInset>
