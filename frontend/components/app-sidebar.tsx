@@ -1,6 +1,14 @@
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
-import { Landmark } from "lucide-react"
-import { ThreadList } from "./assistant-ui/thread-list"
+import {
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+} from '@/components/ui/sidebar';
+import { Landmark } from 'lucide-react';
+import { ThreadList } from './assistant-ui/thread-list';
 
 export function AppSidebar() {
     return (
@@ -10,7 +18,7 @@ export function AppSidebar() {
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
                             <div>
-                                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                                     <Landmark className="size-4" />
                                 </div>
                                 <div className="flex flex-col gap-0.5 leading-none">
@@ -22,7 +30,7 @@ export function AppSidebar() {
                 </SidebarMenu>
             </SidebarHeader>
 
-            <SidebarContent >
+            <SidebarContent>
                 <ThreadList />
             </SidebarContent>
 
@@ -31,5 +39,5 @@ export function AppSidebar() {
                 Footer
             </SidebarFooter>
         </Sidebar>
-    )
+    );
 }

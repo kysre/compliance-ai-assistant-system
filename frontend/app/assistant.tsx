@@ -1,14 +1,13 @@
-"use client";
+'use client';
 
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
-import { Thread } from "@/components/assistant-ui/thread";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/app-sidebar';
+import { Thread } from '@/components/assistant-ui/thread';
 
-import { MyRuntimeProvider } from "@/app/MyRuntimeProvider";
-import { Separator } from "@/components/ui/separator";
-import { ModeSelector } from "@/components/mode-selector";
-import { ModeProvider } from "@/contexts/ModeContext";
-
+import { MyRuntimeProvider } from '@/app/MyRuntimeProvider';
+import { Separator } from '@/components/ui/separator';
+import { ModeSelector } from '@/components/mode-selector';
+import { ModeProvider } from '@/contexts/ModeContext';
 
 export const Assistant = () => {
     return (
