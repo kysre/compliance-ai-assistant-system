@@ -2,15 +2,12 @@ import asyncio
 import os
 
 import nest_asyncio
+import numpy as np
 from lightrag import LightRAG
 from lightrag.kg.shared_storage import initialize_pipeline_status
-from lightrag.llm.llama_index_impl import (
-    llama_index_complete_if_cache,
-    llama_index_embed,
-)
+from lightrag.llm.openai import openai_complete_if_cache
 from lightrag.utils import EmbeddingFunc
-from llama_index.embeddings.litellm import LiteLLMEmbedding
-from llama_index.llms.litellm import LiteLLM
+from openai import OpenAI
 
 nest_asyncio.apply()
 
@@ -20,16 +17,22 @@ GRAPH_RAG_MODES = ["naive", "local", "global", "hybrid"]
 
 class GraphRagService:
     def __init__(self):
-        # Model configuration
-        self.llm_model = os.environ.get("LLM_MODEL", "gpt-4o")
+        # Embedding configuration
         self.embedding_model = os.environ.get(
             "EMBEDDING_MODEL", "text-embedding-3-large"
         )
+        self.embedding_dimensions = int(os.environ.get("EMBEDDING_DIM", 3072))
         self.embedding_max_token_size = int(
             os.environ.get("EMBEDDING_MAX_TOKEN_SIZE", 8192)
         )
-        self.litellm_url = os.environ.get("LITELLM_URL", "http://localhost:4000")
-        self.litellm_key = os.environ.get("LITELLM_KEY", "")
+        self.embedding_base_url = os.environ.get(
+            "EMBEDDING_BASE_URL", "https://api.openai.com/v1"
+        )
+        self.embedding_api_key = os.environ.get("EMBEDDING_API_KEY", "")
+        # LLM Model configuration
+        self.llm_model = os.environ.get("LLM_MODEL", "gpt-4.1-mini")
+        self.llm_base_url = os.environ.get("LLM_BASE_URL", "https://api.openai.com/v1")
+        self.llm_api_key = os.environ.get("LLM_API_KEY", "")
         self.working_dir = os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
             "..",
@@ -43,57 +46,37 @@ class GraphRagService:
     # Initialize LLM function
     async def llm_model_func(
         self, prompt, system_prompt=None, history_messages=[], **kwargs
-    ):
-        try:
-            # Initialize LiteLLM if not in kwargs
-            if "llm_instance" not in kwargs:
-                llm_instance = LiteLLM(
-                    model=f"openai/{self.llm_model}",  # Format: "provider/model_name"
-                    api_base=self.litellm_url,
-                    api_key=self.litellm_key,
-                    temperature=0.7,
-                )
-            kwargs["llm_instance"] = llm_instance
-            response = await llama_index_complete_if_cache(
-                kwargs["llm_instance"],
-                prompt,
-                system_prompt=system_prompt,
-                history_messages=history_messages,
-                **kwargs,
-            )
-            return response
-        except Exception as e:
-            print(f"LLM request failed: {str(e)}")
-            raise
+    ) -> str:
+        return await openai_complete_if_cache(
+            self.llm_model,
+            prompt,
+            system_prompt=system_prompt,
+            history_messages=history_messages,
+            api_key=self.llm_api_key,
+            base_url=self.llm_base_url,
+            **kwargs,
+        )
 
     # Initialize embedding function
     async def embedding_func(self, texts):
-        try:
-            embed_model = LiteLLMEmbedding(
-                model_name=f"openai/{self.embedding_model}",
-                api_base=self.litellm_url,
-                api_key=self.litellm_key,
-            )
-            return await llama_index_embed(texts, embed_model=embed_model)
-        except Exception as e:
-            print(f"Embedding failed: {str(e)}")
-            raise
-
-    # Get embedding dimension
-    async def get_embedding_dim(self):
-        test_text = ["This is a test sentence."]
-        embedding = await self.embedding_func(test_text)
-        embedding_dim = embedding.shape[1]
-        print(f"embedding_dim={embedding_dim}")
-        return embedding_dim
+        client = OpenAI(
+            base_url=self.embedding_base_url,
+            api_key=self.embedding_api_key,
+        )
+        embedding = client.embeddings.create(
+            model=self.embedding_model,
+            input=texts,
+            dimensions=self.embedding_dimensions,
+        )
+        embeddings = [item.embedding for item in embedding.data]
+        return np.array(embeddings)
 
     async def initialize_rag(self):
-        embedding_dimension = await self.get_embedding_dim()
         rag = LightRAG(
             working_dir=self.working_dir,
             llm_model_func=self.llm_model_func,
             embedding_func=EmbeddingFunc(
-                embedding_dim=embedding_dimension,
+                embedding_dim=self.embedding_dimensions,
                 max_token_size=self.embedding_max_token_size,
                 func=self.embedding_func,
             ),
@@ -106,6 +89,8 @@ class GraphRagService:
                 "port": 8000,
                 "cosine_better_than_threshold": 0.2,
                 "auth_token": "token",
+                "auth_header_name": "X-Chroma-Token",
+                "auth_provider": "chromadb.auth.token_authn.TokenAuthClientProvider",
             },
         )
         await rag.initialize_storages()
