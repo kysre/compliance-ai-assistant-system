@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/select"
 
 import { Zap, Brain, Sparkles, Bot } from "lucide-react"
+import { useMode } from "@/contexts/ModeContext"
 
 
 const availableLightRagModes = [
@@ -60,8 +61,10 @@ const availableRagModes = [
 
 
 export function ModeSelector() {
+    const { mode, setMode } = useMode();
+
     return (
-        <Select defaultValue="lightrag/naive">
+        <Select value={mode} onValueChange={setMode}>
             <SelectTrigger className="w-[200px]">
                 <SelectValue />
             </SelectTrigger>

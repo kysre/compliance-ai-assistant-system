@@ -207,19 +207,14 @@ def query(request):
 
     Expects a JSON payload with:
     {
+        "mode": "The mode of the query",
         "query": "The query to ask the GraphRAG service"
     }
 
     Returns a JSON response with:
     {
-        "results": [
-            {
-                "mode": "The mode of the query",
-                "result": "The result of the query",
-                "time": "The time it took to run the query"
-            },
-            ...
-        ]
+        "text": "The result of the query",
+        "time": "The time it took to run the query"
     }
     """
     query = request.data.get("query", None)
@@ -227,26 +222,23 @@ def query(request):
         return Response(
             {"error": "query is required"}, status=status.HTTP_400_BAD_REQUEST
         )
+    mode = request.data.get("mode", None)
+    if not mode:
+        mode = "naive"
     try:
         # Get the RAG service
         rag_service = get_graph_rag_service()
         # Query the rag service with all modes
         results = []
-        for mode in GRAPH_RAG_MODES:
-            start_time = time.time()
-            result = rag_service.query(query, param=QueryParam(mode=mode))
-            exec_time = time.time() - start_time
-            results.append(
-                {
-                    "mode": mode,
-                    "result": result,
-                    "time": f"{exec_time:.4f}",
-                }
-            )
+        start_time = time.time()
+        result = rag_service.query(query, param=QueryParam(mode=mode))
+        exec_time = time.time() - start_time
         return Response(
             {
-                "results": results,
-            }
+                "text": result,
+                "time": f"{exec_time:.4f}",
+            },
+            status=status.HTTP_200_OK,
         )
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
