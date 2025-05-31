@@ -1,6 +1,7 @@
-from rest_framework import serializers
-from chats.models import ChatUser
 from django.contrib.auth import get_user_model
+from rest_framework import serializers
+
+from chats.models import ChatUser
 
 
 class UserSerializer(serializers.ModelSerializer):

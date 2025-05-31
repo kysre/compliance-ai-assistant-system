@@ -1,16 +1,17 @@
-from rest_framework.response import Response
+from django.contrib.auth import authenticate
 from rest_framework import status
-from .serializers import UserSerializer
+from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+
+from chats.api.serializers import UserSerializer
 from chats.models import ChatUser
-from django.contrib.auth import authenticate
-from rest_framework.authtoken.models import Token
 
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
-def sign_up(request):
+def register(request):
     user_serializer = UserSerializer(data=request.data)
     if user_serializer.is_valid():
         user = user_serializer.save()
@@ -23,7 +24,7 @@ def sign_up(request):
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
-def sign_in(request):
+def login(request):
     username = request.data.get("username")
     password = request.data.get("password")
     user = authenticate(username=username, password=password)

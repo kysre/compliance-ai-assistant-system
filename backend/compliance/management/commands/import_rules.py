@@ -1,6 +1,5 @@
 import asyncio
 import json
-import os
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -10,8 +9,8 @@ from typing import Any, Dict, List, Optional
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
+from compliance.api.serializers import RegulationSerializer
 from compliance.models import Regulation
-from compliance.serializers import RegulationSerializer
 from utils.scraper import Scraper
 
 # Constants

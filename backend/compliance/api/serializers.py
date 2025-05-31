@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Regulation
+from compliance.models import Regulation
 
 
 class RegulationSerializer(serializers.ModelSerializer):
