@@ -87,7 +87,7 @@ class GraphRagService:
             vector_db_storage_cls_kwargs={
                 "host": "localhost",
                 "port": 8000,
-                "cosine_better_than_threshold": 0.2,
+                "cosine_better_than_threshold": 0.9,
                 "auth_token": "token",
                 "auth_header_name": "X-Chroma-Token",
                 "auth_provider": "chromadb.auth.token_authn.TokenAuthClientProvider",
