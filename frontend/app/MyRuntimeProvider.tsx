@@ -24,7 +24,7 @@ export function MyRuntimeProvider({
             // naive or gpt-4.1
             const ragMode = mode.split('/')[1];
 
-            const result = await fetch('http://127.0.0.1:8080/compliance/api/query/', {
+            const result = await fetch('http://127.0.0.1:8080/api/compliance/query/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -7,9 +7,9 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .models import Regulation
-from .serializers import RegulationSerializer
-from .service import GRAPH_RAG_MODES, get_graph_rag_service
+from compliance.api.serializers import RegulationSerializer
+from compliance.models import Regulation
+from compliance.service import get_graph_rag_service
 
 
 @api_view(["POST"])
