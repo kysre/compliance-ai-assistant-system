@@ -2,11 +2,11 @@ from django.contrib.auth import authenticate
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from chats.api.serializers import UserSerializer
-from chats.models import ChatUser
+from chats.api.serializers import ThreadSerializer, UserSerializer
+from chats.models import ChatUser, Thread
 
 
 @api_view(["POST"])
@@ -34,3 +34,27 @@ def login(request):
     return Response(
         {"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED
     )
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_threads(request):
+    chat_user = ChatUser.objects.get(user=request.user)
+    threads = Thread.objects.filter(chat_user=chat_user).order_by("-updated_at").all()
+    serializer = ThreadSerializer(threads, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_messages(request, thread_id):
+    thread = Thread.objects.get(id=thread_id)
+    messages = Message.objects.filter(thread=thread).order_by("created_at").all()
+    serializer = MessageSerializer(messages, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def send_message(request):
+    pass
