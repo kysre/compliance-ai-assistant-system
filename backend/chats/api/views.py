@@ -5,8 +5,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from chats.api.serializers import ThreadSerializer, UserSerializer
-from chats.models import ChatUser, Thread
+from chats.api.serializers import ThreadSerializer, UserSerializer, MessageSerializer
+from chats.models import ChatUser, Thread, Message
 
 
 @api_view(["POST"])
@@ -42,7 +42,16 @@ def get_threads(request):
     chat_user = ChatUser.objects.get(user=request.user)
     threads = Thread.objects.filter(chat_user=chat_user).order_by("-updated_at").all()
     serializer = ThreadSerializer(threads, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response({"threads": serializer.data}, status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def create_thread(request):
+    chat_user = ChatUser.objects.get(user=request.user)
+    thread = Thread.objects.create(chat_user=chat_user)
+    serializer = ThreadSerializer(thread)
+    return Response({"thread": serializer.data}, status=status.HTTP_201_CREATED)
 
 
 @api_view(["GET"])
@@ -51,7 +60,7 @@ def get_messages(request, thread_id):
     thread = Thread.objects.get(id=thread_id)
     messages = Message.objects.filter(thread=thread).order_by("created_at").all()
     serializer = MessageSerializer(messages, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response({"messages": serializer.data}, status=status.HTTP_200_OK)
 
 
 @api_view(["POST"])
