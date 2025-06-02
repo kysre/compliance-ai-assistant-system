@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
@@ -36,22 +37,31 @@ def login(request):
     )
 
 
-@api_view(["GET"])
-@permission_classes([IsAuthenticated])
-def get_threads(request):
-    chat_user = ChatUser.objects.get(user=request.user)
-    threads = Thread.objects.filter(chat_user=chat_user).order_by("-updated_at").all()
-    serializer = ThreadSerializer(threads, many=True)
-    return Response({"threads": serializer.data}, status=status.HTTP_200_OK)
+class ThreadView(APIView):
+    permission_classes = [IsAuthenticated]
 
+    def get(self, request):
+        chat_user = ChatUser.objects.get(user=request.user)
+        threads = (
+            Thread.objects.filter(chat_user=chat_user).order_by("-updated_at").all()
+        )
+        serializer = ThreadSerializer(threads, many=True)
+        return Response({"threads": serializer.data}, status=status.HTTP_200_OK)
 
-@api_view(["POST"])
-@permission_classes([IsAuthenticated])
-def create_thread(request):
-    chat_user = ChatUser.objects.get(user=request.user)
-    thread = Thread.objects.create(chat_user=chat_user)
-    serializer = ThreadSerializer(thread)
-    return Response({"thread": serializer.data}, status=status.HTTP_201_CREATED)
+    def post(self, request):
+        chat_user = ChatUser.objects.get(user=request.user)
+        empty_thread = (
+            Thread.objects.filter(chat_user=chat_user)
+            .filter(messages__isnull=True)
+            .order_by("-updated_at")
+            .first()
+        )
+        if empty_thread:
+            thread = empty_thread
+        else:
+            thread = Thread.objects.create(chat_user=chat_user)
+        serializer = ThreadSerializer(thread)
+        return Response({"thread": serializer.data}, status=status.HTTP_201_CREATED)
 
 
 @api_view(["GET"])

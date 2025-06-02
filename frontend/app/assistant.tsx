@@ -6,20 +6,23 @@ import { Thread } from '@/components/assistant-ui/thread';
 
 import { Header } from '@/components/header/header';
 import { ModeProvider } from '@/contexts/ModeContext';
-import { MyRuntimeProvider } from '@/app/my-runtime-provider';
+import { ThreadProvider } from '@/contexts/thread-context';
+import { ChatWithThreads } from '@/app/my-external-store-runtime';
 
 export const Assistant = () => {
     return (
         <ModeProvider>
-            <MyRuntimeProvider>
-                <SidebarProvider>
-                    <AppSidebar />
-                    <SidebarInset>
-                        <Header />
-                        <Thread />
-                    </SidebarInset>
-                </SidebarProvider>
-            </MyRuntimeProvider>
+            <ThreadProvider>
+                <ChatWithThreads>
+                    <SidebarProvider>
+                        <AppSidebar />
+                        <SidebarInset>
+                            <Header />
+                            <Thread />
+                        </SidebarInset>
+                    </SidebarProvider>
+                </ChatWithThreads>
+            </ThreadProvider>
         </ModeProvider>
     );
 };

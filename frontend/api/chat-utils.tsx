@@ -16,7 +16,7 @@ const getMessages = (threadId: string) => {
 };
 
 const createThread = () => {
-    return api.post('/api/chats/threads/');
+    return api.post({}, '/api/chats/threads/');
 };
 
 const sendMessage = (threadId: string, message: string) => {
