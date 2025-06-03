@@ -19,8 +19,11 @@ const createThread = () => {
     return api.post({}, '/api/chats/threads/');
 };
 
-const sendMessage = (threadId: string, message: string) => {
-    return api.post({ message }, `/api/chats/threads/${threadId}/messages/`);
+const sendMessage = (threadId: string, message: string, ragType: string, ragMode: string) => {
+    return api.post(
+        { message: message, type: ragType, mode: ragMode },
+        `/api/chats/threads/${threadId}/messages/`,
+    );
 };
 
 const query = (ragMode: string, ragType: string, query: string) => {

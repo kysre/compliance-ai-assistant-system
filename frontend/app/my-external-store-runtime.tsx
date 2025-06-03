@@ -93,6 +93,9 @@ export function ChatWithThreads({
                                 status: 'complete',
                                 role: message.role,
                                 content: [{ type: 'text', text: message.content }],
+                                metadata: {
+                                    unstable_state: false,
+                                },
                             },
                         ];
                     });
@@ -177,9 +180,9 @@ export function ChatWithThreads({
 
         const ragType = mode.split('/')[0];
         const ragMode = mode.split('/')[1];
-        const { query } = ChatUtils;
+        const { sendMessage } = ChatUtils;
         var text: string = '';
-        await query(ragMode, ragType, message.content[0].text)
+        await sendMessage(currentThreadId, message.content[0].text, ragType, ragMode)
             .json((json) => {
                 text = json.text;
             })

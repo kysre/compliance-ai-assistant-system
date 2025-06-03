@@ -1,13 +1,17 @@
+import time
+
 from django.contrib.auth import authenticate
+from lightrag import QueryParam
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from chats.api.serializers import ThreadSerializer, UserSerializer, MessageSerializer
-from chats.models import ChatUser, Thread, Message
+from chats.api.serializers import MessageSerializer, ThreadSerializer, UserSerializer
+from chats.models import ChatUser, Message, MessageRole, Thread
+from compliance.service import get_graph_rag_service
 
 
 @api_view(["POST"])
@@ -64,16 +68,71 @@ class ThreadView(APIView):
         return Response({"thread": serializer.data}, status=status.HTTP_201_CREATED)
 
 
-@api_view(["GET"])
-@permission_classes([IsAuthenticated])
-def get_messages(request, thread_id):
-    thread = Thread.objects.get(id=thread_id)
-    messages = Message.objects.filter(thread=thread).order_by("created_at").all()
-    serializer = MessageSerializer(messages, many=True)
-    return Response({"messages": serializer.data}, status=status.HTTP_200_OK)
+class MessageView(APIView):
+    permission_classes = [IsAuthenticated]
 
+    def get(self, request, thread_id):
+        thread = Thread.objects.get(id=thread_id)
+        messages = Message.objects.filter(thread=thread).order_by("created_at").all()
+        serializer = MessageSerializer(messages, many=True)
+        return Response({"messages": serializer.data}, status=status.HTTP_200_OK)
 
-@api_view(["POST"])
-@permission_classes([IsAuthenticated])
-def send_message(request):
-    pass
+    def post(self, request, thread_id):
+        """
+        API endpoint to send a message to the GraphRAG service.
+
+        Expects a JSON payload with:
+        {
+            "type": "Type of rag service to use",
+            "mode": "The mode of the query",
+            "message": "The message to send to the rag service"
+        }
+
+        Returns a JSON response with:
+        {
+            "text": "The result of the query",
+        }
+        """
+        message = request.data.get("message", None)
+        if not message:
+            return Response(
+                {"error": "message is required"}, status=status.HTTP_400_BAD_REQUEST
+            )
+        thread = Thread.objects.get(id=thread_id)
+        if not thread:
+            return Response(
+                {"error": "thread not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+        rag_type = request.data.get("type", None)
+        if not rag_type:
+            rag_type = "lightrag"
+        rag_mode = request.data.get("mode", None)
+        if not rag_mode:
+            rag_mode = "naive"
+        try:
+            rag_service = get_graph_rag_service()
+            start_time = time.time()
+            result = rag_service.query(message, param=QueryParam(mode=rag_mode))
+            exec_time = time.time() - start_time
+        except Exception as e:
+            return Response(
+                {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+        Message.objects.create(
+            thread=thread,
+            content=message,
+            role=MessageRole.USER,
+        )
+        Message.objects.create(
+            thread=thread,
+            content=result,
+            role=MessageRole.ASSISTANT,
+        )
+        # TODO: make this prometheus metric
+        print(f"exec_time: {exec_time:.4f}")
+        return Response(
+            {
+                "text": result,
+            },
+            status=status.HTTP_200_OK,
+        )
