@@ -5,26 +5,69 @@ import { useMode } from '@/contexts/ModeContext';
 import { useThreadContext } from '@/contexts/thread-context';
 import {
     AssistantRuntimeProvider,
-    type ExternalStoreThreadData,
     ExternalStoreThreadListAdapter,
     ThreadMessageLike,
     useExternalStoreRuntime,
+    type AppendMessage,
+    type ExternalStoreThreadData,
 } from '@assistant-ui/react';
 import { ReactNode, useState, useEffect } from 'react';
+
+const getRunningMessage = (
+    role: 'user' | 'assistant',
+    threadId: string,
+    content: any,
+): ThreadMessageLike => {
+    return {
+        id: `msg-${role}-${Date.now()}`,
+        status: {
+            type: 'running',
+        },
+        metadata: {
+            custom: {
+                threadId: threadId,
+            },
+        },
+        role: role,
+        content: content,
+    };
+};
+
+const getCompletedMessageFromRunningMessage = (
+    runningMessage: ThreadMessageLike,
+    content: any,
+): ThreadMessageLike => {
+    return {
+        id: runningMessage.id,
+        status: {
+            type: 'complete',
+            reason: 'stop',
+        },
+        metadata: runningMessage.metadata,
+        role: runningMessage.role,
+        content: content,
+    };
+};
 
 export function ChatWithThreads({
     children,
 }: Readonly<{
     children: ReactNode;
 }>) {
+    // Local state management (assistant-ui)
     const { currentThreadId, setCurrentThreadId, threads, setThreads } = useThreadContext();
     const [threadList, setThreadList] = useState<ExternalStoreThreadData<any>[]>([]);
     const setMessagesForThread = (threadId: string, messages: ThreadMessageLike[]) => {
         setThreads((prev) => new Map(prev).set(threadId, messages));
     };
 
+    // Local state management (app)
+    const { mode } = useMode();
+
+    // Backend api calls
     const { createThread, getThreads, getMessages } = ChatUtils;
 
+    // Initialize the thread lists (runs only once on mount)
     useEffect(() => {
         createThread().json((json) => {
             setCurrentThreadId(json.thread.id);
@@ -43,22 +86,22 @@ export function ChatWithThreads({
                 var messages = [];
                 getMessages(thread.id).json((json) => {
                     json.messages.forEach((message: any) => {
-                        messages = [...messages, {
-                            id: message.id,
-                            status: 'complete',
-                            role: message.role,
-                            content: [{ type: 'text', text: message.content }],
-                        }];
+                        messages = [
+                            ...messages,
+                            {
+                                id: message.id,
+                                status: 'complete',
+                                role: message.role,
+                                content: [{ type: 'text', text: message.content }],
+                            },
+                        ];
                     });
                     setMessagesForThread(thread.id, messages);
                 });
                 setThreadList(defaultThreadList);
             });
         });
-    }, []); // Empty dependency array means it runs only once on mount
-
-    // Get messages for current thread
-    const currentMessages = threads.get(currentThreadId) || [];
+    }, []);
 
     const threadListAdapter: ExternalStoreThreadListAdapter = {
         threadId: currentThreadId,
@@ -115,70 +158,67 @@ export function ChatWithThreads({
         },
     };
 
+    // Get messages for current thread
+    const currentMessages = threads.get(currentThreadId) || [];
+    // Set messages for current thread
     const setMessages = (messages: ThreadMessageLike[]) => {
         setThreads((prev) => new Map(prev).set(currentThreadId, messages));
     };
 
-    const { mode } = useMode();
-
-    const onNew = async (message) => {
+    // Functions to handle message interactions in a thread
+    const onNew = async (message: AppendMessage): Promise<void> => {
         if (message.content.length !== 1 || message.content[0]?.type !== 'text')
             throw new Error('Only text content is supported');
+        const runningUserMessage = getRunningMessage('user', currentThreadId, [
+            { type: 'text', text: message.content[0].text },
+        ]);
+        const runningAssistantMessage = getRunningMessage('assistant', currentThreadId, []);
+        setMessages([...currentMessages, runningUserMessage, runningAssistantMessage]);
 
-        console.log('currentMessages', currentMessages);
-
-        const userMessage: ThreadMessageLike = {
-            id: `message-${Date.now()}`,
-            status: 'running',
-            metadata: {
-                custom: {
-                    threadId: currentThreadId,
-                },
-            },
-            role: 'user',
-            content: [{ type: 'text', text: message.content[0].text }],
-        };
-        setMessages([...currentMessages, userMessage]);
-
-        // Handle new message for current thread
-        // Your implementation here
         const ragType = mode.split('/')[0];
-        // naive or gpt-4.1
         const ragMode = mode.split('/')[1];
-
-        console.log('mode', mode);
-        console.log('ragType', ragType);
-        console.log('ragMode', ragMode);
-
         const { query } = ChatUtils;
-
         var text: string = '';
-        await query(ragMode, ragType, message.content[0].text).json((json) => {
-            text = json.text;
-        });
+        await query(ragMode, ragType, message.content[0].text)
+            .json((json) => {
+                text = json.text;
+            })
+            .catch((error) => {
+                text = 'Something went wrong. Try again.';
+            });
 
-        console.log('assistant message', text);
-
-        userMessage.status = 'complete';
-
-        const assistantMessage: ThreadMessageLike = {
-            id: `message-${Date.now()}`,
-            status: 'complete',
-            metadata: {
-                custom: {
-                    threadId: currentThreadId,
-                },
-            },
-            role: 'assistant',
-            content: [{ type: 'text', text: text }],
-        };
-        setMessages([...currentMessages, userMessage, assistantMessage]);
-    }
+        const completedUserMessage: ThreadMessageLike = getCompletedMessageFromRunningMessage(
+            runningUserMessage,
+            runningUserMessage.content,
+        );
+        const completedAssistantMessage: ThreadMessageLike = getCompletedMessageFromRunningMessage(
+            runningAssistantMessage,
+            [{ type: 'text', text: text }],
+        );
+        setMessages([...currentMessages, completedUserMessage, completedAssistantMessage]);
+    };
+    const onEdit = async (message: AppendMessage): Promise<void> => {
+        onNew(message);
+    };
+    const onReload = async (parentId: string | null, config: any): Promise<void> => {
+        const userMsgId = config.parentId;
+        const userMsg = currentMessages.find((m) => m.id === userMsgId);
+        if (userMsg) {
+            onNew(userMsg);
+        }
+    };
+    const onCancel = async (): Promise<void> => {
+        // TODO: cancel the running message
+        console.log('onCancel');
+    };
 
     const runtime = useExternalStoreRuntime({
         messages: currentMessages,
         setMessages: setMessages,
         onNew: onNew,
+        onEdit: onEdit,
+        onReload: onReload,
+        onCancel: onCancel,
         adapters: {
             threadList: threadListAdapter,
         },
