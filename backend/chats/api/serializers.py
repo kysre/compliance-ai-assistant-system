@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from chats.models import ChatUser
+from chats.models import ChatUser, Message, Thread
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -34,3 +34,24 @@ class ChatUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatUser
         fields = ("username", "email")
+
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = ("id", "role", "content", "created_at")
+
+
+class ThreadSerializer(serializers.ModelSerializer):
+    lastMessage = serializers.SerializerMethodField()
+    createdAt = serializers.DateTimeField(source="created_at")
+
+    class Meta:
+        model = Thread
+        fields = ("id", "title", "lastMessage", "createdAt")
+
+    def get_lastMessage(self, obj):
+        latest_message = obj.latest_message
+        if latest_message:
+            return MessageSerializer(latest_message).data
+        return None

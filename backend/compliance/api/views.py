@@ -229,7 +229,6 @@ def query(request):
         # Get the RAG service
         rag_service = get_graph_rag_service()
         # Query the rag service with all modes
-        results = []
         start_time = time.time()
         result = rag_service.query(query, param=QueryParam(mode=mode))
         exec_time = time.time() - start_time
