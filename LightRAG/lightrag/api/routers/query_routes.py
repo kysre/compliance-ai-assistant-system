@@ -127,7 +127,7 @@ def create_query_routes(rag, api_key: Optional[str] = None, top_k: int = 60):
     combined_auth = get_combined_auth_dependency(api_key)
 
     @router.post(
-        "/query", response_model=QueryResponse, dependencies=[Depends(combined_auth)]
+        "/query", response_model=QueryResponse
     )
     async def query_text(request: QueryRequest):
         """
@@ -161,7 +161,7 @@ def create_query_routes(rag, api_key: Optional[str] = None, top_k: int = 60):
             trace_exception(e)
             raise HTTPException(status_code=500, detail=str(e))
 
-    @router.post("/query/stream", dependencies=[Depends(combined_auth)])
+    @router.post("/query/stream")
     async def query_text_stream(request: QueryRequest):
         """
         This endpoint performs a retrieval-augmented generation (RAG) query and streams the response.

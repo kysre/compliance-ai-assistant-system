@@ -846,7 +846,7 @@ def create_document_routes(
             raise HTTPException(status_code=500, detail=str(e))
 
     @router.post(
-        "/text", response_model=InsertResponse, dependencies=[Depends(combined_auth)]
+        "/text", response_model=InsertResponse
     )
     async def insert_text(
         request: InsertTextRequest, background_tasks: BackgroundTasks
@@ -887,7 +887,6 @@ def create_document_routes(
     @router.post(
         "/texts",
         response_model=InsertResponse,
-        dependencies=[Depends(combined_auth)],
     )
     async def insert_texts(
         request: InsertTextsRequest, background_tasks: BackgroundTasks
