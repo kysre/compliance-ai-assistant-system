@@ -1,4 +1,3 @@
-version: "3"
 services:
   db-postgres:
     image: pgvector/pgvector:0.8.0-pg16
@@ -8,8 +7,6 @@ services:
       - POSTGRES_DB=compliance_ai_assistant
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    ports:
-      - "5432:5432"
     restart: unless-stopped
 
   db-neo4j:
@@ -20,7 +17,6 @@ services:
         - NEO4J_AUTH=neo4j/lightrag
     ports:
       - "7474:7474"
-      - "7687:7687"
     restart: always
 
   db-chroma:
@@ -31,33 +27,53 @@ services:
       - CHROMA_SERVER_AUTHN_CREDENTIALS=token
       - CHROMA_AUTH_TOKEN_TRANSPORT_HEADER=X-Chroma-Token
       - CHROMA_SERVER_AUTHN_PROVIDER=chromadb.auth.token_authn.TokenAuthenticationServerProvider
+
+  lightrag:
+    image: lightrag:v1.0.0
+    build:
+      context: ../LightRAG
+      dockerfile: Dockerfile
+      tags:
+        - lightrag:v1.0.0
+    depends_on:
+      - db-postgres
+      - db-neo4j
+      - db-chroma
+    ports:
+      - "9621:9621"
+    volumes:
+      - ./lightrag.env:/app/.env
+    env_file:
+      - ./lightrag.env
+    restart: unless-stopped
+
+  backend:
+    image: compliance-ai-assistant-backend:v1.0.0
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+      tags:
+        - compliance-ai-assistant-backend:v1.0.0
+    depends_on:
+      - db-postgres
+      - db-chroma
+    volumes:
+      - static:/code/static
+      - media:/code/media
+    environment:
+      - DJANGO_SETTINGS_MODULE=compliance_ai_assistant.settings.production
+      - ALLOWED_HOSTS=*
+      - DATABASE_NAME=compliance_ai_assistant
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_HOST=db-postgres
+      - DATABASE_PORT=5432
     ports:
       - "8000:8000"
-
-  # backend:
-  #   build:
-  #     context: ../backend
-  #     dockerfile: Dockerfile
-  #   depends_on:
-  #     - db-postgres
-  #     - db-neo4j
-  #   volumes:
-  #     - static:/code/static
-  #     - media:/code/media
-  #   environment:
-  #     - DJANGO_SETTINGS_MODULE=compliance_ai_assistant.settings.production
-  #     - ALLOWED_HOSTS=*
-  #     - DATABASE_NAME=compliance_ai_assistant
-  #     - DATABASE_USER=postgres
-  #     - DATABASE_PASSWORD=postgres
-  #     - DATABASE_HOST=db-postgres
-  #     - DATABASE_PORT=5432
-  #   ports:
-  #     - "8000:8000"
-  #   deploy:
-  #     mode: replicated
-  #     replicas: 1
-  #   restart: unless-stopped
+    deploy:
+      mode: replicated
+      replicas: 1
+    restart: unless-stopped
 
 volumes:
   pg_data:
@@ -65,19 +81,19 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ../databases/db-postgres
+      device: /Users/kysre/University/term-10/BSC-project/compliance-ai-assistant-system/deployment/databases/db-postgres
   neo4j_data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ../databases/db-neo4j
+      device: /Users/kysre/University/term-10/BSC-project/compliance-ai-assistant-system/deployment/databases/db-neo4j
   chroma_data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ../databases/db-chroma
+      device: /Users/kysre/University/term-10/BSC-project/compliance-ai-assistant-system/deployment/databases/db-chroma
   static:
     driver: local
   media:
