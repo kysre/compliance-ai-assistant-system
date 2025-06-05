@@ -1,7 +1,6 @@
 import time
 
 from django.contrib.auth import authenticate
-from lightrag import QueryParam
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
@@ -11,7 +10,7 @@ from rest_framework.views import APIView
 
 from chats.api.serializers import MessageSerializer, ThreadSerializer, UserSerializer
 from chats.models import ChatUser, Message, MessageRole, Thread
-from compliance.service import get_graph_rag_service
+from compliance.service import LightRagClient, LightRagMode
 
 
 @api_view(["POST"])
@@ -110,9 +109,11 @@ class MessageView(APIView):
         if not rag_mode:
             rag_mode = "naive"
         try:
-            rag_service = get_graph_rag_service()
             start_time = time.time()
-            result = rag_service.query(message, param=QueryParam(mode=rag_mode))
+            if rag_type == "lightrag":
+                lightrag = LightRagClient()
+                mode = LightRagMode(rag_mode)
+                result = lightrag.query(message, mode)
             exec_time = time.time() - start_time
         except Exception as e:
             return Response(

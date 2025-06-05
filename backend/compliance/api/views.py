@@ -2,14 +2,13 @@ import json
 import time
 
 from django.db import transaction
-from lightrag import QueryParam
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from compliance.api.serializers import RegulationSerializer
 from compliance.models import Regulation
-from compliance.service import get_graph_rag_service
+from compliance.service import LightRagClient, LightRagMode
 
 
 @api_view(["POST"])
@@ -37,18 +36,20 @@ def insert(request):
                 {"message": "Regulation with this identifier already exists"},
                 status=status.HTTP_200_OK,
             )
-        rag_service = get_graph_rag_service()
-        rag_service.insert(
-            json.dumps(
-                {
-                    "title": validated_data["title"],
-                    "text": validated_data["text"],
-                    "authority": validated_data["authority"],
-                    "date": validated_data["date"],
-                }
-            ),
+        lightrag_client = LightRagClient()
+        lightrag_client.insert_texts(
+            texts=[
+                json.dumps(
+                    {
+                        "title": validated_data["title"],
+                        "text": validated_data["text"],
+                        "authority": validated_data["authority"],
+                        "date": validated_data["date"],
+                    }
+                )
+            ],
             ids=[validated_data["identifier"]],
-            file_paths=[validated_data.get("link", "")],
+            sources=[validated_data.get("link", "")],
         )
         serializer.save()
         return Response(
@@ -114,8 +115,6 @@ def batch_insert(request):
         )
 
     try:
-        rag_service = get_graph_rag_service()
-
         # Prepare data for bulk insert to RAG service
         documents = []
         ids = []
@@ -169,7 +168,8 @@ def batch_insert(request):
             )
 
         with transaction.atomic():
-            rag_service.insert(
+            lightrag = LightRagClient()
+            lightrag.insert(
                 documents,
                 ids=ids,
                 file_paths=file_paths,
@@ -225,12 +225,11 @@ def query(request):
     mode = request.data.get("mode", None)
     if not mode:
         mode = "naive"
+    mode = LightRagMode(mode)
     try:
-        # Get the RAG service
-        rag_service = get_graph_rag_service()
-        # Query the rag service with all modes
+        lightrag = LightRagClient()
         start_time = time.time()
-        result = rag_service.query(query, param=QueryParam(mode=mode))
+        result = lightrag.query(query, mode=mode)
         exec_time = time.time() - start_time
         return Response(
             {
