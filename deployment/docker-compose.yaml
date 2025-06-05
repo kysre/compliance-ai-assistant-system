@@ -7,8 +7,6 @@ services:
       - POSTGRES_DB=compliance_ai_assistant
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    ports:
-      - "5432:5432"
     restart: unless-stopped
 
   db-neo4j:
@@ -31,7 +29,6 @@ services:
       - CHROMA_SERVER_AUTHN_PROVIDER=chromadb.auth.token_authn.TokenAuthenticationServerProvider
 
   lightrag:
-    container_name: lightrag
     image: lightrag:v1.0.0
     build:
       context: ../LightRAG
@@ -50,30 +47,33 @@ services:
       - ./lightrag.env
     restart: unless-stopped
 
-  # backend:
-  #   build:
-  #     context: ../backend
-  #     dockerfile: Dockerfile
-  #   depends_on:
-  #     - db-postgres
-  #     - db-neo4j
-  #   volumes:
-  #     - static:/code/static
-  #     - media:/code/media
-  #   environment:
-  #     - DJANGO_SETTINGS_MODULE=compliance_ai_assistant.settings.production
-  #     - ALLOWED_HOSTS=*
-  #     - DATABASE_NAME=compliance_ai_assistant
-  #     - DATABASE_USER=postgres
-  #     - DATABASE_PASSWORD=postgres
-  #     - DATABASE_HOST=db-postgres
-  #     - DATABASE_PORT=5432
-  #   ports:
-  #     - "8000:8000"
-  #   deploy:
-  #     mode: replicated
-  #     replicas: 1
-  #   restart: unless-stopped
+  backend:
+    image: compliance-ai-assistant-backend:v1.0.0
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+      tags:
+        - compliance-ai-assistant-backend:v1.0.0
+    depends_on:
+      - db-postgres
+      - db-chroma
+    volumes:
+      - static:/code/static
+      - media:/code/media
+    environment:
+      - DJANGO_SETTINGS_MODULE=compliance_ai_assistant.settings.production
+      - ALLOWED_HOSTS=*
+      - DATABASE_NAME=compliance_ai_assistant
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_HOST=db-postgres
+      - DATABASE_PORT=5432
+    ports:
+      - "8000:8000"
+    deploy:
+      mode: replicated
+      replicas: 1
+    restart: unless-stopped
 
 volumes:
   pg_data:
