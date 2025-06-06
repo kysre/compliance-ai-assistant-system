@@ -24,14 +24,11 @@ import { useRouter } from 'next/navigation';
 export const MySidebarFooter = () => {
     const { isMobile } = useSidebar();
     const router = useRouter();
-    const { logout } = AuthUtils;
+    const { logout, getAuthUser } = AuthUtils;
 
-    // TODO: Get user from backend
-    const user = {
-        username: 'John Doe',
-        email: 'john.doe@example.com',
-        avatar: 'https://github.com/shadcn.png',
-    };
+    const user = getAuthUser();
+    // TODO: Get avatar from backend
+    const avatar_source = 'https://github.com/shadcn.png'
 
     const handleLogout = () => {
         logout();
@@ -53,11 +50,11 @@ export const MySidebarFooter = () => {
                                 className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                             >
                                 <Avatar className="h-8 w-8 rounded-lg">
-                                    <AvatarImage src={user.avatar} alt={user.username} />
+                                    <AvatarImage src={avatar_source} alt={user.first_name} />
                                     <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                                 </Avatar>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate font-medium">{user.username}</span>
+                                    <span className="truncate font-medium">{user.first_name}</span>
                                     <span className="truncate text-xs">{user.email}</span>
                                 </div>
                                 <ChevronsUpDown className="ml-auto size-4" />
@@ -72,12 +69,12 @@ export const MySidebarFooter = () => {
                             <DropdownMenuLabel className="border-sidebar-accent rounded-lg border-2 p-1 font-normal">
                                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                                     <Avatar className="h-8 w-8 rounded-lg">
-                                        <AvatarImage src={user.avatar} alt={user.username} />
+                                        <AvatarImage src={avatar_source} alt={user.first_name} />
                                         <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                                     </Avatar>
                                     <div className="grid flex-1 text-left text-sm leading-tight">
                                         <span className="truncate font-medium">
-                                            {user.username}
+                                            {user.first_name}
                                         </span>
                                         <span className="truncate text-xs">{user.email}</span>
                                     </div>
