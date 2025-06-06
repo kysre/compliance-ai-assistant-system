@@ -1,7 +1,7 @@
 'use client';
 
 import { ChatUtils } from '@/api/chat-utils';
-import { useMode } from '@/contexts/ModeContext';
+import { useMode } from '@/contexts/mode-context';
 import { useThreadContext } from '@/contexts/thread-context';
 import {
     AssistantRuntimeProvider,
