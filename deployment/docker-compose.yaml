@@ -15,8 +15,6 @@ services:
         - neo4j_data:/data
     environment:
         - NEO4J_AUTH=neo4j/lightrag
-    ports:
-      - "7474:7474"
     restart: always
 
   db-chroma:
