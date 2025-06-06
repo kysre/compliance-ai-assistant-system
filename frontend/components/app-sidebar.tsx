@@ -1,14 +1,14 @@
 import {
     Sidebar,
     SidebarContent,
-    SidebarFooter,
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { Landmark } from 'lucide-react';
-import { ThreadList } from './assistant-ui/thread-list';
+import { ThreadList } from '@/components/assistant-ui/thread-list';
+import { MySidebarFooter } from '@/components/footer/my-sidebar-footer';
 
 export function AppSidebar() {
     return (
@@ -30,14 +30,11 @@ export function AppSidebar() {
                 </SidebarMenu>
             </SidebarHeader>
 
-            <SidebarContent>
+            <SidebarContent className="mx-2">
                 <ThreadList />
             </SidebarContent>
 
-            <SidebarFooter>
-                {/* TODO: Add admin panel access */}
-                Footer
-            </SidebarFooter>
+            <MySidebarFooter />
         </Sidebar>
     );
 }
