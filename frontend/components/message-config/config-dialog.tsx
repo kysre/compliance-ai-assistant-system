@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button';
 import {
     Dialog,
     DialogContent,
@@ -8,23 +8,15 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Settings } from "lucide-react"
-import {
-    RadioGroup,
-    RadioGroupItem,
-} from "@/components/ui/radio-group"
-import { Textarea } from "@/components/ui/textarea"
-import { useConfig } from "@/contexts/config-context"
+} from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { Settings } from 'lucide-react';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Textarea } from '@/components/ui/textarea';
+import { useConfig } from '@/contexts/config-context';
 
 export function ConfigDialog() {
-    const {
-        systemPromptType,
-        customPrompt,
-        setSystemPromptType,
-        setCustomPrompt
-    } = useConfig()
+    const { systemPromptType, customPrompt, setSystemPromptType, setCustomPrompt } = useConfig();
 
     return (
         <Dialog>
@@ -43,7 +35,9 @@ export function ConfigDialog() {
 
                 <RadioGroup
                     value={systemPromptType}
-                    onValueChange={(value) => setSystemPromptType(value as 'chat' | 'compliance' | 'custom')}
+                    onValueChange={(value) =>
+                        setSystemPromptType(value as 'chat' | 'compliance' | 'custom')
+                    }
                 >
                     <div className="flex items-start gap-3">
                         <RadioGroupItem value="chat" id="r1" />
@@ -82,5 +76,5 @@ export function ConfigDialog() {
                 />
             </DialogContent>
         </Dialog>
-    )
+    );
 }

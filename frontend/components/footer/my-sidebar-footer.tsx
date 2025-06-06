@@ -27,7 +27,7 @@ export const MySidebarFooter = () => {
 
     const user = getAuthUser();
     // TODO: Get avatar from backend
-    const avatar_source = 'https://github.com/shadcn.png'
+    const avatar_source = 'https://github.com/shadcn.png';
 
     const handleLogout = () => {
         logout();

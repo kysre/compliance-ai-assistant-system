@@ -19,9 +19,22 @@ const createThread = () => {
     return api.post({}, '/api/chats/threads/');
 };
 
-const sendMessage = (threadId: string, message: string, ragType: string, ragMode: string) => {
+const sendMessage = (
+    threadId: string,
+    message: string,
+    ragType: string,
+    ragMode: string,
+    systemPromptType: string,
+    customPrompt: string,
+) => {
     return api.post(
-        { message: message, type: ragType, mode: ragMode },
+        {
+            message: message,
+            type: ragType,
+            mode: ragMode,
+            system_prompt_type: systemPromptType,
+            custom_prompt: customPrompt,
+        },
         `/api/chats/threads/${threadId}/messages/`,
     );
 };
