@@ -52,7 +52,7 @@ def login(request):
     )
 
 
-class ThreadView(APIView):
+class ThreadListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -77,6 +77,20 @@ class ThreadView(APIView):
             thread = Thread.objects.create(chat_user=chat_user)
         serializer = ThreadSerializer(thread)
         return Response({"thread": serializer.data}, status=status.HTTP_201_CREATED)
+
+
+class ThreadView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, thread_id):
+        chat_user = ChatUser.objects.get(user=request.user)
+        thread = Thread.objects.get(id=thread_id, chat_user=chat_user)
+        if not thread:
+            return Response(
+                {"error": "thread not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+        thread.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class MessageView(APIView):

@@ -2,7 +2,7 @@ import os
 from enum import Enum
 
 import requests
-from system_prompt import SystemPromptProvider
+from compliance.system_prompt import SystemPromptProvider
 
 
 class LightRagMode(Enum):
