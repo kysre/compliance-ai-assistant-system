@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/select';
 
 import { Zap, Brain, Sparkles, Bot } from 'lucide-react';
-import { useMode } from '@/contexts/ModeContext';
+import { useMode } from '@/contexts/mode-context';
 
 const availableLightRagModes = [
     {

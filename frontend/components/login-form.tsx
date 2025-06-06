@@ -8,7 +8,7 @@ import { AuthUtils } from '@/api/auth-utils';
 import { useRouter } from 'next/navigation';
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
-    const { login, setAuthToken } = AuthUtils;
+    const { login, setAuthToken, setAuthUser } = AuthUtils;
 
     const router = useRouter();
 
@@ -20,7 +20,8 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
         login(username, password)
             .json((json) => {
                 setAuthToken(json.token);
-                console.log(json);
+                console.log(json.user);
+                setAuthUser(json.user);
                 router.push('/');
             })
             .catch((err) => {
