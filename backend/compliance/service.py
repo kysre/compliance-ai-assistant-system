@@ -2,6 +2,7 @@ import os
 from enum import Enum
 
 import requests
+
 from compliance.system_prompt import SystemPromptProvider
 
 
@@ -42,7 +43,22 @@ class LightRagClient:
         )
         if response.status_code != 200:
             raise error(response.json()["detail"][0]["msg"])
-        return response.json()["response"]
+        return self._translate_to_persian(response.json()["response"])
+
+    @classmethod
+    def _translate_to_persian(cls, text: str) -> str:
+        translations = {
+            "Compliance Status": "وضعیت تنقیحی",
+            "Regulatory Concerns": "ریسک‌های قانونی",
+            "Risk Assessment": "بررسی ریسک‌ها",
+            "Compliance Recommendations": "توصیه‌های تنقیحی",
+            "Regulatory Context": "قوانین مرتبط",
+            "Verdict": "نتیجه",
+            "References": "منابع",
+        }
+        for key, value in translations.items():
+            text = text.replace(key, value)
+        return text
 
     @classmethod
     def _get_query_request(
