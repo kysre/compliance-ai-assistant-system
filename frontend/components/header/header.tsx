@@ -2,6 +2,8 @@ import { ModeSelector } from '@/components/mode-selector';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { ModeToggle } from './mode-toggle';
+import { ConfigDialog } from '@/components/message-config/config-dialog';
+import { ConfigProvider } from '@/contexts/config-context';
 
 export const Header = () => {
     return (
@@ -9,6 +11,9 @@ export const Header = () => {
             <SidebarTrigger />
             <Separator orientation="vertical" className="mx-2 h-4" />
             <ModeSelector />
+            <ConfigProvider>
+                <ConfigDialog />
+            </ConfigProvider>
             <div className="ml-auto">
                 <ModeToggle />
             </div>
