@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 
 from .models import ChatUser, Message, Thread
 
@@ -25,17 +26,17 @@ class ChatUserAdmin(admin.ModelAdmin):
     def user_email(self, obj):
         return obj.user.email
 
-    user_email.short_description = "Email"
+    user_email.short_description = _("Email")
 
     def user_first_name(self, obj):
         return obj.user.first_name
 
-    user_first_name.short_description = "First Name"
+    user_first_name.short_description = _("First Name")
 
     def user_last_name(self, obj):
         return obj.user.last_name
 
-    user_last_name.short_description = "Last Name"
+    user_last_name.short_description = _("Last Name")
 
 
 @admin.register(Thread)
@@ -69,9 +70,9 @@ class ThreadAdmin(admin.ModelAdmin):
                 else latest.content
             )
             return f"{latest.get_role_display()}: {content_preview}"
-        return "No messages"
+        return _("No messages")
 
-    latest_message_preview.short_description = "Latest Message"
+    latest_message_preview.short_description = _("Latest Message")
 
 
 @admin.register(Message)
@@ -97,4 +98,4 @@ class MessageAdmin(admin.ModelAdmin):
     def content_preview(self, obj):
         return obj.content[:100] + "..." if len(obj.content) > 100 else obj.content
 
-    content_preview.short_description = "Content Preview"
+    content_preview.short_description = _("Content Preview")

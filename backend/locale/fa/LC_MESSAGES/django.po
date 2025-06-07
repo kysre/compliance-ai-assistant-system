@@ -138,4 +138,85 @@ msgstr "ارجاع قانونی"
 
 #: models.py:106
 msgid "Regulation References"
-msgstr "ارجاعات قانونی" 
+msgstr "ارجاعات قانونی"
+
+# Chats app translations
+msgid "Chat User"
+msgstr "کاربر چت"
+
+msgid "Chat Users"
+msgstr "کاربران چت"
+
+msgid "User"
+msgstr "کاربر"
+
+msgid "Assistant"
+msgstr "دستیار"
+
+msgid "Thread"
+msgstr "چت"
+
+msgid "Threads"
+msgstr "چت‌ها"
+
+msgid "New Chat"
+msgstr "چت جدید"
+
+msgid "Message"
+msgstr "پیام"
+
+msgid "Messages"
+msgstr "پیام‌ها"
+
+msgid "Role"
+msgstr "نقش"
+
+msgid "System Prompt"
+msgstr "پرامپت سیستمی"
+
+msgid "Created at"
+msgstr "تاریخ ایجاد"
+
+msgid "Updated at"
+msgstr "تاریخ بروزرسانی"
+
+msgid "Title"
+msgstr "عنوان"
+
+# Admin interface translations for chats
+msgid "Email"
+msgstr "ایمیل"
+
+msgid "First Name"
+msgstr "نام"
+
+msgid "Last Name"
+msgstr "نام خانوادگی"
+
+msgid "Latest Message"
+msgstr "آخرین پیام"
+
+msgid "Content Preview"
+msgstr "پیش‌نمای محتوا"
+
+msgid "No messages"
+msgstr "پیامی وجود ندارد"
+
+# Additional common admin translations
+msgid "Active"
+msgstr "فعال"
+
+msgid "Inactive"
+msgstr "غیرفعال"
+
+msgid "Date joined"
+msgstr "تاریخ عضویت"
+
+msgid "Staff status"
+msgstr "وضعیت کارمند"
+
+msgid "Superuser status"
+msgstr "وضعیت ابرکاربر"
+
+msgid "View Source"
+msgstr "مشاهده منبع" 
