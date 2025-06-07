@@ -55,6 +55,7 @@ services:
     depends_on:
       - db-postgres
       - db-chroma
+      - lightrag
     volumes:
       - static:/code/static
       - media:/code/media
@@ -72,6 +73,40 @@ services:
       mode: replicated
       replicas: 1
     restart: unless-stopped
+  
+  frontend:
+    image: compliance-ai-assistant-frontend:v1.0.0
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+      tags:
+        - compliance-ai-assistant-frontend:v1.0.0
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    deploy:
+      mode: replicated
+      replicas: 1
+    restart: unless-stopped
+
+  reverse_proxy:
+    image: reverse-proxy:v1.0.0
+    build:
+      context: ../nginx
+      dockerfile: Dockerfile
+      tags:
+        - reverse-proxy:v1.0.0
+    restart: unless-stopped
+    depends_on:
+      - backend
+      - frontend
+      - lightrag
+    ports:
+      - "8080:80"
+    volumes:
+      - static:/usr/share/nginx/html/backend/static
+      - media:/usr/share/nginx/html/backend/media
 
 volumes:
   pg_data:
