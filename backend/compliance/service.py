@@ -3,6 +3,8 @@ from enum import Enum
 
 import requests
 
+from compliance.system_prompt import SystemPromptProvider
+
 
 class LightRagMode(Enum):
     NAIVE = "naive"
@@ -19,24 +21,48 @@ class LightRagClient:
         self.headers = {
             "Content-Type": "application/json",
         }
+        self.system_prompt_provider = SystemPromptProvider()
 
-    def query(self, query: str, mode: LightRagMode, system_prompt: str = None) -> str:
+    def query(
+        self,
+        query: str,
+        mode: LightRagMode,
+        system_prompt_type: str = "chat",
+        system_prompt: str = None,
+    ) -> str:
         url = f"{self.host}/query"
 
-        print(query, mode, system_prompt)
+        user_prompt = self.system_prompt_provider.get_system_prompt(
+            system_prompt_type, system_prompt
+        )
 
         response = requests.post(
             url,
             headers=self.headers,
-            json=self._get_query_request(query, mode, system_prompt),
+            json=self._get_query_request(query, mode, user_prompt),
         )
         if response.status_code != 200:
             raise error(response.json()["detail"][0]["msg"])
-        return response.json()["response"]
+        return self._translate_to_persian(response.json()["response"])
+
+    @classmethod
+    def _translate_to_persian(cls, text: str) -> str:
+        translations = {
+            "Compliance Status": "وضعیت تنقیحی",
+            "Regulatory Concerns": "ریسک‌های قانونی",
+            "Risk Assessment": "بررسی ریسک‌ها",
+            "Compliance Recommendations": "توصیه‌های تنقیحی",
+            "Regulatory Context": "قوانین مرتبط",
+            "Verdict": "نتیجه",
+            "References": "منابع",
+        }
+        for key, value in translations.items():
+            text = text.replace(key, value)
+        return text
 
     @classmethod
     def _get_query_request(
-        cls, query: str, mode: LightRagMode, system_prompt: str = None
+        cls, query: str, mode: LightRagMode, user_prompt: str = None
     ) -> dict:
         # TODO: add history support for queries
         """
@@ -52,8 +78,8 @@ class LightRagClient:
             "query": query,
             "mode": mode.value,
         }
-        if system_prompt:
-            data["user_prompt"] = system_prompt
+        if user_prompt:
+            data["user_prompt"] = user_prompt
         return data
 
     def insert_texts(

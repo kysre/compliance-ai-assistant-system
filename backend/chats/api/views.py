@@ -1,6 +1,7 @@
 import time
 
 from django.contrib.auth import authenticate
+from django.db import transaction
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
@@ -51,7 +52,7 @@ def login(request):
     )
 
 
-class ThreadView(APIView):
+class ThreadListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -78,6 +79,20 @@ class ThreadView(APIView):
         return Response({"thread": serializer.data}, status=status.HTTP_201_CREATED)
 
 
+class ThreadView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, thread_id):
+        chat_user = ChatUser.objects.get(user=request.user)
+        thread = Thread.objects.get(id=thread_id, chat_user=chat_user)
+        if not thread:
+            return Response(
+                {"error": "thread not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+        thread.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 class MessageView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -96,6 +111,8 @@ class MessageView(APIView):
             "type": "Type of rag service to use",
             "mode": "The mode of the query",
             "message": "The message to send to the rag service"
+            "system_prompt_type": "The type of system prompt to use",
+            "custom_prompt": "The custom system prompt to use",
         }
 
         Returns a JSON response with:
@@ -119,27 +136,34 @@ class MessageView(APIView):
         rag_mode = request.data.get("mode", None)
         if not rag_mode:
             rag_mode = "naive"
+        system_prompt_type = request.data.get("system_prompt_type", None)
+        if not system_prompt_type:
+            system_prompt_type = "chat"
+        custom_prompt = request.data.get("custom_prompt", None)
         try:
             start_time = time.time()
             if rag_type == "lightrag":
                 lightrag = LightRagClient()
                 mode = LightRagMode(rag_mode)
-                result = lightrag.query(message, mode)
+                result = lightrag.query(
+                    message, mode, system_prompt_type, custom_prompt
+                )
             exec_time = time.time() - start_time
         except Exception as e:
             return Response(
                 {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-        Message.objects.create(
-            thread=thread,
-            content=message,
-            role=MessageRole.USER,
-        )
-        Message.objects.create(
-            thread=thread,
-            content=result,
-            role=MessageRole.ASSISTANT,
-        )
+        with transaction.atomic():
+            Message.objects.create(
+                thread=thread,
+                content=message,
+                role=MessageRole.USER,
+            )
+            Message.objects.create(
+                thread=thread,
+                content=result,
+                role=MessageRole.ASSISTANT,
+            )
         # TODO: make this prometheus metric
         print(f"exec_time: {exec_time:.4f}")
         return Response(

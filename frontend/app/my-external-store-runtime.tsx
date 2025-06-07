@@ -12,6 +12,7 @@ import {
     type ExternalStoreThreadData,
 } from '@assistant-ui/react';
 import { ReactNode, useState, useEffect } from 'react';
+import { useConfig } from '@/contexts/config-context';
 
 const getRunningMessage = (
     role: 'user' | 'assistant',
@@ -63,9 +64,9 @@ export function ChatWithThreads({
 
     // Local state management (app)
     const { mode } = useMode();
-
+    const { systemPromptType, customPrompt } = useConfig();
     // Backend api calls
-    const { createThread, getThreads, getMessages } = ChatUtils;
+    const { createThread, deleteThread, getThreads, getMessages } = ChatUtils;
 
     // Initialize the thread lists (runs only once on mount)
     useEffect(() => {
@@ -141,7 +142,7 @@ export function ChatWithThreads({
         },
 
         onArchive: (threadId) => {
-            // TODO: archive the thread in the database
+            deleteThread(threadId);
             setThreadList((prev) =>
                 prev.map((t) => (t.threadId === threadId ? { ...t, status: 'archived' } : t)),
             );
@@ -182,7 +183,14 @@ export function ChatWithThreads({
         const ragMode = mode.split('/')[1];
         const { sendMessage } = ChatUtils;
         var text: string = '';
-        await sendMessage(currentThreadId, message.content[0].text, ragType, ragMode)
+        await sendMessage(
+            currentThreadId,
+            message.content[0].text,
+            ragType,
+            ragMode,
+            systemPromptType,
+            customPrompt,
+        )
             .json((json) => {
                 text = json.text;
             })
