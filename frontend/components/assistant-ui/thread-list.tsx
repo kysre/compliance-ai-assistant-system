@@ -4,6 +4,7 @@ import { ArchiveIcon, PlusIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { TooltipIconButton } from '@/components/assistant-ui/tooltip-icon-button';
+import { useTranslations } from 'next-intl';
 
 export const ThreadList: FC = () => {
     return (
@@ -15,6 +16,8 @@ export const ThreadList: FC = () => {
 };
 
 const ThreadListNew: FC = () => {
+    const t = useTranslations('ThreadList');
+
     return (
         <ThreadListPrimitive.New asChild>
             <Button
@@ -22,7 +25,7 @@ const ThreadListNew: FC = () => {
                 variant="ghost"
             >
                 <PlusIcon />
-                New Thread
+                {t('newThread')}
             </Button>
         </ThreadListPrimitive.New>
     );

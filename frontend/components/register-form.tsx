@@ -6,8 +6,11 @@ import { Label } from '@/components/ui/label';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { AuthUtils } from '@/api/auth-utils';
+import { useTranslations } from 'next-intl';
 
 export function RegisterForm({ className, ...props }: React.ComponentProps<'div'>) {
+    const t = useTranslations('RegisterForm');
+
     const { register } = AuthUtils;
 
     const router = useRouter();
@@ -33,18 +36,24 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<'div'
         <div className={cn('flex flex-col gap-6', className)} {...props}>
             <Card>
                 <CardHeader>
-                    <CardTitle>Register new account</CardTitle>
-                    <CardDescription>Enter your details below to register</CardDescription>
+                    <CardTitle>{t('title')}</CardTitle>
+                    <CardDescription>{t('description')}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleRegister}>
                         <div className="flex flex-col gap-6">
                             <div className="grid gap-3">
-                                <Label htmlFor="username">Username</Label>
-                                <Input id="username" name="username" type="text" required />
+                                <Label htmlFor="username">{t('username')}</Label>
+                                <Input
+                                    id="username"
+                                    name="username"
+                                    type="text"
+                                    placeholder={t('username')}
+                                    required
+                                />
                             </div>
                             <div className="grid gap-3">
-                                <Label htmlFor="email">Email</Label>
+                                <Label htmlFor="email">{t('email')}</Label>
                                 <Input
                                     id="email"
                                     name="email"
@@ -55,25 +64,36 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<'div'
                             </div>
                             <div className="grid gap-3">
                                 <div className="flex items-center">
-                                    <Label htmlFor="password">Password</Label>
+                                    <Label htmlFor="password">{t('password')}</Label>
                                 </div>
-                                <Input id="password" name="password" type="password" required />
+                                <Input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    placeholder={t('password')}
+                                    required
+                                />
                             </div>
                             <div className="grid gap-3">
                                 {/* TODO: Check if password and confirm password are the same */}
-                                <Label htmlFor="confirm-password">Confirm Password</Label>
-                                <Input id="confirm-password" type="password" required />
+                                <Label htmlFor="confirm-password">{t('confirmPassword')}</Label>
+                                <Input
+                                    id="confirm-password"
+                                    type="password"
+                                    placeholder={t('confirmPassword')}
+                                    required
+                                />
                             </div>
                             <div className="flex flex-col gap-3">
                                 <Button type="submit" className="w-full">
-                                    Register
+                                    {t('register')}
                                 </Button>
                             </div>
                         </div>
                         <div className="mt-4 text-center text-sm">
-                            Already have an account?{' '}
+                            {t('alreadyHaveAccount')}{' '}
                             <Link href="/login" className="underline underline-offset-4">
-                                Login
+                                {t('login')}
                             </Link>
                         </div>
                     </form>

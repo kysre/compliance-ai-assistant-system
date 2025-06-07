@@ -19,8 +19,11 @@ import { BadgeCheck, ChevronsUpDown, LogOut } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { AuthUtils } from '@/api/auth-utils';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export const MySidebarFooter = () => {
+    const t = useTranslations('MySidebarFooter');
+
     const { isMobile } = useSidebar();
     const router = useRouter();
     const { logout, getAuthUser } = AuthUtils;
@@ -50,7 +53,9 @@ export const MySidebarFooter = () => {
                             >
                                 <Avatar className="h-8 w-8 rounded-lg">
                                     <AvatarImage src={avatar_source} alt={user.first_name} />
-                                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                                    <AvatarFallback className="rounded-lg">
+                                        {t('avatarFallback')}
+                                    </AvatarFallback>
                                 </Avatar>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
                                     <span className="truncate font-medium">{user.first_name}</span>
@@ -86,7 +91,7 @@ export const MySidebarFooter = () => {
                             >
                                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                                     <BadgeCheck className="h-5 w-5 rounded-lg" />
-                                    <span>Account</span>
+                                    <span>{t('account')}</span>
                                 </div>
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
@@ -96,7 +101,7 @@ export const MySidebarFooter = () => {
                             >
                                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                                     <LogOut className="h-5 w-5 rounded-lg" />
-                                    <span>Log out</span>
+                                    <span>{t('logout')}</span>
                                 </div>
                             </DropdownMenuItem>
                         </DropdownMenuContent>

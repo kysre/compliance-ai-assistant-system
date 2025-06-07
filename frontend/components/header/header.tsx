@@ -1,8 +1,9 @@
 import { ModeSelector } from '@/components/mode-selector';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { ModeToggle } from './mode-toggle';
+import { ModeToggle } from '@/components/header/mode-toggle';
 import { ConfigDialog } from '@/components/message-config/config-dialog';
+import { LanguageToggle } from '@/components/header/language-toggle';
 
 export const Header = () => {
     return (
@@ -11,8 +12,9 @@ export const Header = () => {
             <Separator orientation="vertical" className="mx-2 h-4" />
             <ModeSelector />
             <ConfigDialog />
-            <div className="ml-auto">
+            <div className="ml-auto flex items-center gap-2">
                 <ModeToggle />
+                <LanguageToggle />
             </div>
         </header>
     );

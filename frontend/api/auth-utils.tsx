@@ -13,7 +13,6 @@ const BASE_URL = 'http://127.0.0.1:8000';
 const api = wretch(BASE_URL).accept('application/json');
 
 const login = (username: string, password: string) => {
-    console.log(username, password);
     return api.post({ username: username, password: password }, '/api/chats/login/');
 };
 

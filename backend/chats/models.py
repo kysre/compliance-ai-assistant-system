@@ -2,21 +2,24 @@ import uuid
 
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class MessageRole(models.TextChoices):
-    USER = "user", "User"
-    ASSISTANT = "assistant", "Assistant"
+    USER = "user", _("User")
+    ASSISTANT = "assistant", _("Assistant")
 
 
 class ChatUser(models.Model):
-    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    user = models.OneToOneField(
+        get_user_model(), on_delete=models.CASCADE, verbose_name=_("User")
+    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated at"))
 
     class Meta:
-        verbose_name = "Chat User"
-        verbose_name_plural = "Chat Users"
+        verbose_name = _("Chat User")
+        verbose_name_plural = _("Chat Users")
 
     def __str__(self):
         return self.user.username
@@ -25,13 +28,20 @@ class ChatUser(models.Model):
 class Thread(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     chat_user = models.ForeignKey(
-        ChatUser, on_delete=models.CASCADE, related_name="threads"
+        ChatUser,
+        on_delete=models.CASCADE,
+        related_name="threads",
+        verbose_name=_("Chat User"),
     )
-    title = models.CharField(max_length=255, default="New Chat")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    title = models.CharField(
+        max_length=255, default=_("New Chat"), verbose_name=_("Title")
+    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated at"))
 
     class Meta:
+        verbose_name = _("Thread")
+        verbose_name_plural = _("Threads")
         ordering = ["-updated_at"]
         indexes = [
             models.Index(fields=["chat_user", "-updated_at"]),
@@ -55,19 +65,27 @@ class Thread(models.Model):
 class Message(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     thread = models.ForeignKey(
-        Thread, on_delete=models.CASCADE, related_name="messages"
+        Thread,
+        on_delete=models.CASCADE,
+        related_name="messages",
+        verbose_name=_("Thread"),
     )
     role = models.CharField(
         max_length=10,
         choices=MessageRole.choices,
         default=MessageRole.USER,
+        verbose_name=_("Role"),
     )
-    system_prompt = models.TextField(blank=True, default="")
-    content = models.TextField(blank=True, default="")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    system_prompt = models.TextField(
+        blank=True, default="", verbose_name=_("System Prompt")
+    )
+    content = models.TextField(blank=True, default="", verbose_name=_("Content"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created at"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated at"))
 
     class Meta:
+        verbose_name = _("Message")
+        verbose_name_plural = _("Messages")
         ordering = ["created_at"]
         indexes = [
             models.Index(fields=["thread", "created_at"]),
