@@ -1,0 +1,61 @@
+{
+    "RegisterForm": {
+        "title": "ثبت نام",
+        "description": "اطلاعات خود را وارد کنید",
+        "username": "نام کاربری",
+        "email": "ایمیل",
+        "password": "رمز عبور",
+        "confirmPassword": "تکرار رمز عبور",
+        "register": "تایید",
+        "alreadyHaveAccount": "قبلاً ثبت نام کرده‌اید؟",
+        "login": "ورود"
+    },
+    "LoginForm": {
+        "title": "ورود",
+        "description": "نام کاربری و رمز عبور خود را وارد کنید",
+        "username": "نام کاربری",
+        "password": "رمز عبور",
+        "forgotPassword": "فراموشی رمز عبور",
+        "login": "تایید",
+        "noAccount": "حساب کاربری ندارید؟",
+        "register": "ایجاد"
+    },
+    "AppSidebar": {
+        "title": "دستیار تنقیح قوانین"
+    },
+    "ModeSelector": {
+        "lightrag": "LightRag",
+        "rag": "Rag"
+    },
+    "MySidebarFooter": {
+        "avatarFallback": "CN",
+        "account": "حساب کاربری",
+        "logout": "خروج"
+    },
+    "ModeToggle": {
+        "title": "تغییر تم",
+        "light": "روشن",
+        "dark": "تاریک",
+        "system": "سیستم"
+    },
+    "ConfigDialog": {
+        "title": "تنظیمات دستیار",
+        "description": "دستیار هوشمند مورد نظر خود را انتخاب کنید.",
+        "chat": "چت",
+        "chatDescription": "چت با دستیار هوشمند",
+        "compliance": "تنقیحی",
+        "complianceDescription": "تنقیح قوانین به کمک دستیار هوشمند",
+        "custom": "شخصی‌سازی",
+        "customDescription": "دستیار شخصی خود را بسازید",
+        "customPromptPlaceholder": "دستورالعمل دستیار شخصی شما"
+    },
+    "ThreadList": {
+        "newThread": "چت جدید"
+    },
+    "Thread": {
+        "threadWelcome": "چگونه می‌توانم به شما کمک کنم؟",
+        "welcomeSuggestionsItem1": "چگونه می‌توانم در بورس سرمایه‌گذاری کنم؟",
+        "welcomeSuggestionsItem2": "چگونه می‌توانم مالیات را محاسبه کنم؟",
+        "composerPlaceholder": "پیام خود را بنویسید"
+    }
+}
