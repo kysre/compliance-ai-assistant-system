@@ -1,4 +1,7 @@
 {
+    "Direction": {
+        "dir": "ltr"
+    },
     "RegisterForm": {
         "title": "Register new account",
         "description": "Enter your details below to register",

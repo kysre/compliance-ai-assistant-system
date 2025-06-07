@@ -1,7 +1,10 @@
 {
+    "Direction": {
+        "dir": "rtl"
+    },
     "RegisterForm": {
         "title": "ثبت نام",
-        "description": "اطلاعات خود را وارد کنید",
+        "description": "اطلاعات خود را وارد کنید.",
         "username": "نام کاربری",
         "email": "ایمیل",
         "password": "رمز عبور",
@@ -12,7 +15,7 @@
     },
     "LoginForm": {
         "title": "ورود",
-        "description": "نام کاربری و رمز عبور خود را وارد کنید",
+        "description": "نام کاربری و رمز عبور خود را وارد کنید.",
         "username": "نام کاربری",
         "password": "رمز عبور",
         "forgotPassword": "فراموشی رمز عبور",
