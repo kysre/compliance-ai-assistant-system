@@ -38,6 +38,11 @@
         "dark": "تاریک",
         "system": "سیستم"
     },
+    "LanguageToggle": {
+        "title": "تغییر زبان",
+        "en": "English",
+        "fa": "فارسی"
+    },
     "ConfigDialog": {
         "title": "تنظیمات دستیار",
         "description": "دستیار هوشمند مورد نظر خود را انتخاب کنید.",

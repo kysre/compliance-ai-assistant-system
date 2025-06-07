@@ -38,6 +38,11 @@
         "dark": "Dark",
         "system": "System"
     },
+    "LanguageToggle": {
+        "title": "Toggle Language",
+        "en": "English",
+        "fa": "فارسی"
+    },
     "ConfigDialog": {
         "title": "Assistant Settings",
         "description": "Choose an assistant to use for your messages.",
