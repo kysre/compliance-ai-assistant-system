@@ -1,0 +1,61 @@
+{
+    "RegisterForm": {
+        "title": "Register new account",
+        "description": "Enter your details below to register",
+        "username": "Username",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "register": "Register",
+        "alreadyHaveAccount": "Already have an account?",
+        "login": "Login"
+    },
+    "LoginForm": {
+        "title": "Login to your account",
+        "description": "Enter your username and password below to login to your account",
+        "username": "Username",
+        "password": "Password",
+        "forgotPassword": "Forgot your password?",
+        "login": "Login",
+        "noAccount": "Don't have an account?",
+        "register": "Register"
+    },
+    "AppSidebar": {
+        "title": "Compliance Assistant"
+    },
+    "ModeSelector": {
+        "lightrag": "LightRag",
+        "rag": "Rag"
+    },
+    "MySidebarFooter": {
+        "avatarFallback": "CN",
+        "account": "Account",
+        "logout": "Logout"
+    },
+    "ModeToggle": {
+        "title": "Toggle Theme",
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+    },
+    "ConfigDialog": {
+        "title": "Assistant Settings",
+        "description": "Choose an assistant to use for your messages.",
+        "chat": "Chat",
+        "chatDescription": "Chat with an intelligent assistant.",
+        "compliance": "Compliance",
+        "complianceDescription": "Check compliance with regulations.",
+        "custom": "Custom",
+        "customDescription": "Test your custom system prompt.",
+        "customPromptPlaceholder": "Your custom system prompt."
+    },
+    "ThreadList": {
+        "newThread": "New Thread"
+    },
+    "Thread": {
+        "threadWelcome": "How can I help you today?",
+        "welcomeSuggestionsItem1": "How can I invest in the stock market?",
+        "welcomeSuggestionsItem2": "How are taxes calculated?",
+        "composerPlaceholder": "Write a message..."
+    }
+}
