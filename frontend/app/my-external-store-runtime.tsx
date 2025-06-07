@@ -66,7 +66,7 @@ export function ChatWithThreads({
     const { mode } = useMode();
     const { systemPromptType, customPrompt } = useConfig();
     // Backend api calls
-    const { createThread, getThreads, getMessages } = ChatUtils;
+    const { createThread, deleteThread, getThreads, getMessages } = ChatUtils;
 
     // Initialize the thread lists (runs only once on mount)
     useEffect(() => {
@@ -142,7 +142,7 @@ export function ChatWithThreads({
         },
 
         onArchive: (threadId) => {
-            // TODO: archive the thread in the database
+            deleteThread(threadId);
             setThreadList((prev) =>
                 prev.map((t) => (t.threadId === threadId ? { ...t, status: 'archived' } : t)),
             );

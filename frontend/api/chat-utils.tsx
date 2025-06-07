@@ -11,6 +11,10 @@ const getThreads = () => {
     return api.get('/api/chats/threads/');
 };
 
+const deleteThread = (threadId: string) => {
+    return api.delete(`/api/chats/threads/${threadId}/`);
+};
+
 const getMessages = (threadId: string) => {
     return api.get(`/api/chats/threads/${threadId}/messages/`);
 };
@@ -47,6 +51,7 @@ export const ChatUtils = {
     getThreads,
     getMessages,
     createThread,
+    deleteThread,
     sendMessage,
     query,
 };
