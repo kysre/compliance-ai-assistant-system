@@ -10,6 +10,7 @@ import {
 
 import { Zap, Brain, Sparkles, Bot } from 'lucide-react';
 import { useMode } from '@/contexts/mode-context';
+import { useTranslations } from 'next-intl';
 
 const availableLightRagModes = [
     {
@@ -59,6 +60,8 @@ const availableRagModes = [
 ];
 
 export function ModeSelector() {
+    const t = useTranslations('ModeSelector');
+
     const { mode, setMode } = useMode();
 
     return (
@@ -68,7 +71,7 @@ export function ModeSelector() {
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
-                    <SelectLabel>LightRag</SelectLabel>
+                    <SelectLabel>{t('lightrag')}</SelectLabel>
                     {availableLightRagModes.map((mode) => {
                         const IconComponent = mode.icon;
                         return (
@@ -82,7 +85,7 @@ export function ModeSelector() {
                     })}
                 </SelectGroup>
                 <SelectGroup>
-                    <SelectLabel>Rag</SelectLabel>
+                    <SelectLabel>{t('rag')}</SelectLabel>
                     {availableRagModes.map((mode) => {
                         const IconComponent = mode.icon;
                         return (

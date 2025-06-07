@@ -22,6 +22,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { MarkdownText } from '@/components/assistant-ui/markdown-text';
 import { TooltipIconButton } from '@/components/assistant-ui/tooltip-icon-button';
+import { useTranslations } from 'next-intl';
 
 export const Thread: FC = () => {
     return (
@@ -70,11 +71,13 @@ const ThreadScrollToBottom: FC = () => {
 };
 
 const ThreadWelcome: FC = () => {
+    const t = useTranslations('Thread');
+
     return (
         <ThreadPrimitive.Empty>
             <div className="flex w-full max-w-[var(--thread-max-width)] flex-grow flex-col">
                 <div className="flex w-full flex-grow flex-col items-center justify-center">
-                    <p className="mt-4 font-medium">How can I help you today?</p>
+                    <p className="mt-4 font-medium">{t('threadWelcome')}</p>
                 </div>
                 <ThreadWelcomeSuggestions />
             </div>
@@ -83,26 +86,28 @@ const ThreadWelcome: FC = () => {
 };
 
 const ThreadWelcomeSuggestions: FC = () => {
+    const t = useTranslations('Thread');
+
     return (
         <div className="mt-3 flex w-full items-stretch justify-center gap-4">
             <ThreadPrimitive.Suggestion
                 className="hover:bg-muted/80 flex max-w-sm grow basis-0 flex-col items-center justify-center rounded-lg border p-3 transition-colors ease-in"
-                prompt="How can I invest in the stock market?"
+                prompt={t('welcomeSuggestionsItem1')}
                 method="replace"
                 autoSend
             >
                 <span className="line-clamp-2 text-sm font-semibold text-ellipsis">
-                    How can I invest in the stock market?
+                    {t('welcomeSuggestionsItem1')}
                 </span>
             </ThreadPrimitive.Suggestion>
             <ThreadPrimitive.Suggestion
                 className="hover:bg-muted/80 flex max-w-sm grow basis-0 flex-col items-center justify-center rounded-lg border p-3 transition-colors ease-in"
-                prompt="How are taxes calculated?"
+                prompt={t('welcomeSuggestionsItem2')}
                 method="replace"
                 autoSend
             >
                 <span className="line-clamp-2 text-sm font-semibold text-ellipsis">
-                    How are taxes calculated?
+                    {t('welcomeSuggestionsItem2')}
                 </span>
             </ThreadPrimitive.Suggestion>
         </div>
@@ -110,12 +115,14 @@ const ThreadWelcomeSuggestions: FC = () => {
 };
 
 const Composer: FC = () => {
+    const t = useTranslations('Thread');
+
     return (
         <ComposerPrimitive.Root className="focus-within:border-ring/20 flex w-full flex-wrap items-end rounded-lg border bg-inherit px-2.5 shadow-sm transition-colors ease-in">
             <ComposerPrimitive.Input
                 rows={1}
                 autoFocus
-                placeholder="Write a message..."
+                placeholder={t('composerPlaceholder')}
                 className="placeholder:text-muted-foreground max-h-40 flex-grow resize-none border-none bg-transparent px-2 py-4 text-sm outline-none focus:ring-0 disabled:cursor-not-allowed"
             />
             <ComposerAction />

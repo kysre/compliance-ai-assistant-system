@@ -9,8 +9,11 @@ import {
 import { Landmark } from 'lucide-react';
 import { ThreadList } from '@/components/assistant-ui/thread-list';
 import { MySidebarFooter } from '@/components/footer/my-sidebar-footer';
+import { useTranslations } from 'next-intl';
 
 export function AppSidebar() {
+    const t = useTranslations('AppSidebar');
+
     return (
         <Sidebar>
             <SidebarHeader>
@@ -22,7 +25,7 @@ export function AppSidebar() {
                                     <Landmark className="size-4" />
                                 </div>
                                 <div className="flex flex-col gap-0.5 leading-none">
-                                    <span className="font-semibold">Compliance Assistant</span>
+                                    <span className="font-semibold">{t('title')}</span>
                                 </div>
                             </div>
                         </SidebarMenuButton>

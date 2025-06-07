@@ -1,7 +1,7 @@
 import { ModeSelector } from '@/components/mode-selector';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { ModeToggle } from './mode-toggle';
+import { ModeToggle } from '@/components/header/mode-toggle';
 import { ConfigDialog } from '@/components/message-config/config-dialog';
 
 export const Header = () => {

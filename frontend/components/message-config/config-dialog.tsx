@@ -14,8 +14,11 @@ import { Settings } from 'lucide-react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
 import { useConfig } from '@/contexts/config-context';
+import { useTranslations } from 'next-intl';
 
 export function ConfigDialog() {
+    const t = useTranslations('ConfigDialog');
+
     const { systemPromptType, customPrompt, setSystemPromptType, setCustomPrompt } = useConfig();
 
     return (
@@ -27,10 +30,8 @@ export function ConfigDialog() {
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Assistant Settings</DialogTitle>
-                    <DialogDescription>
-                        Choose an assistant to use for your messages.
-                    </DialogDescription>
+                    <DialogTitle>{t('title')}</DialogTitle>
+                    <DialogDescription>{t('description')}</DialogDescription>
                 </DialogHeader>
 
                 <RadioGroup
@@ -42,34 +43,32 @@ export function ConfigDialog() {
                     <div className="flex items-start gap-3">
                         <RadioGroupItem value="chat" id="r1" />
                         <div className="grid gap-2">
-                            <Label htmlFor="r1">Chat</Label>
-                            <p className="text-muted-foreground text-sm">
-                                Chat with an intelligent assistant.
-                            </p>
+                            <Label htmlFor="r1">{t('chat')}</Label>
+                            <p className="text-muted-foreground text-sm">{t('chatDescription')}</p>
                         </div>
                     </div>
                     <div className="flex items-start gap-3">
                         <RadioGroupItem value="compliance" id="r2" />
                         <div className="grid gap-2">
-                            <Label htmlFor="r2">Compliance</Label>
+                            <Label htmlFor="r2">{t('compliance')}</Label>
                             <p className="text-muted-foreground text-sm">
-                                Check compliance with regulations.
+                                {t('complianceDescription')}
                             </p>
                         </div>
                     </div>
                     <div className="flex items-start gap-3">
                         <RadioGroupItem value="custom" id="r3" />
                         <div className="grid gap-2">
-                            <Label htmlFor="r3">Custom</Label>
+                            <Label htmlFor="r3">{t('custom')}</Label>
                             <p className="text-muted-foreground text-sm">
-                                Test your custom system prompt.
+                                {t('customDescription')}
                             </p>
                         </div>
                     </div>
                 </RadioGroup>
 
                 <Textarea
-                    placeholder="Your custom system prompt."
+                    placeholder={t('customPromptPlaceholder')}
                     value={customPrompt}
                     onChange={(e) => setCustomPrompt(e.target.value)}
                     disabled={systemPromptType !== 'custom'}
