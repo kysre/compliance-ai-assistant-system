@@ -4,11 +4,135 @@ import time
 from django.db import transaction
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from compliance.api.serializers import RegulationSerializer
 from compliance.models import Regulation
 from compliance.service import LightRagClient, LightRagMode
+
+
+class RegulationPagination(PageNumberPagination):
+    page_size = 20
+    page_size_query_param = "page_size"
+    max_page_size = 100
+
+
+class RegulationListView(APIView):
+    """
+    API endpoint for managing regulations collection.
+
+    GET Request:
+        Returns a paginated list of regulations without their full text content.
+
+        Request Sample:
+            GET /api/compliance/regulations/?page=1&page_size=20
+
+        Response (200 OK):
+            {
+                "count": <total_count>,
+                "next": "<next_page_url>",
+                "previous": "<previous_page_url>",
+                "results": [
+                    {
+                        "identifier": "REG-001",
+                        "title": "Sample Regulation",
+                        "date": "2024-01-01",
+                        "authority": "Sample Authority",
+                        "link": "https://example.com/regulation"
+                        // Note: text field is excluded for performance
+                    },
+                    ...
+                ]
+            }
+
+    POST Request:
+        Creates a new regulation in the system.
+
+        Request Body:
+            {
+                "identifier": "Unique regulation identifier (required)",
+                "title": "Regulation title (required)",
+                "text": "Full regulation text (required)",
+                "date": "Regulation date (required)",
+                "authority": "Issuing authority (required)",
+                "link": "URL to regulation source (optional)"
+            }
+    """
+
+    def get(self, request):
+        regulations = Regulation.objects.all()
+        paginator = RegulationPagination()
+        paginated_regulations = paginator.paginate_queryset(regulations, request)
+        serializer = RegulationSerializer(
+            paginated_regulations, many=True, context={"include_text": False}
+        )
+        return paginator.get_paginated_response(serializer.data)
+
+    def post(self, request):
+        serializer = RegulationSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            validated_data = serializer.validated_data
+            if Regulation.objects.filter(
+                identifier=validated_data["identifier"]
+            ).exists():
+                return Response(
+                    {"message": "Regulation with this identifier already exists"},
+                    status=status.HTTP_200_OK,
+                )
+            # TODO: insert into different rags
+            serializer.save()
+            return Response(
+                {"message": "Regulation inserted successfully"},
+                status=status.HTTP_201_CREATED,
+            )
+        except Exception as e:
+            return Response(
+                {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class RegulationView(APIView):
+    """
+    API endpoint for managing individual regulations.
+
+    GET Request:
+        Retrieves a single regulation by its unique identifier, including full text content.
+
+        Request Sample:
+            GET /api/compliance/regulations/REGULATION-ID/
+
+        Response (200 OK):
+            {
+                "regulation": {
+                    "identifier": "REGULATION-ID",
+                    "title": "Sample Regulation",
+                    "text": "Full regulation text content...",
+                    "date": "2024-01-01",
+                    "authority": "Sample Authority",
+                    "link": "https://example.com/regulation"
+                }
+            }
+
+    DELETE Request:
+        Removes a regulation from the system and RAG service.
+
+        Request Sample:
+            DELETE /api/compliance/regulations/REGULATION-ID/
+    """
+
+    def get(self, request, identifier):
+        regulation = Regulation.objects.get(identifier=identifier)
+        serializer = RegulationSerializer(regulation, context={"include_text": True})
+        return Response({"regulation": serializer.data}, status=status.HTTP_200_OK)
+
+    def delete(self, request, identifier):
+        regulation = Regulation.objects.get(identifier=identifier)
+        # TODO: Implement delete api and remove regulation from rags
+        pass
 
 
 @api_view(["POST"])

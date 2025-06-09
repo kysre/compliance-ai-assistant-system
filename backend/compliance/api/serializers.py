@@ -11,6 +11,12 @@ class RegulationSerializer(serializers.ModelSerializer):
         model = Regulation
         fields = ["identifier", "title", "date", "authority", "link", "text"]
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        context = kwargs.get("context", {})
+        if not context.get("include_text", True):
+            self.fields.pop("text", None)
+
     def validate_date(self, value):
         """
         Convert date from yyyy/mm/dd to yyyy-mm-dd format
