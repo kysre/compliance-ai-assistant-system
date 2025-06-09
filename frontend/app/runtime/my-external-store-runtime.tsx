@@ -13,6 +13,7 @@ import {
 } from '@assistant-ui/react';
 import { ReactNode, useState, useEffect } from 'react';
 import { useConfig } from '@/contexts/config-context';
+import { useRouter } from 'next/navigation';
 
 const getRunningMessage = (
     role: 'user' | 'assistant',
@@ -61,10 +62,10 @@ export function ChatWithThreads({
     const setMessagesForThread = (threadId: string, messages: ThreadMessageLike[]) => {
         setThreads((prev) => new Map(prev).set(threadId, messages));
     };
-
     // Local state management (app)
     const { mode } = useMode();
     const { systemPromptType, customPrompt } = useConfig();
+    const router = useRouter();
     // Backend api calls
     const { createThread, deleteThread, getThreads, getMessages } = ChatUtils;
 
@@ -113,6 +114,7 @@ export function ChatWithThreads({
         archivedThreads: threadList.filter((t) => t.status === 'archived'),
 
         onSwitchToNewThread: async () => {
+            router.push('/dashboard');
             const { createThread } = ChatUtils;
             var newId: string = '';
             await createThread().json((json) => {
@@ -131,6 +133,7 @@ export function ChatWithThreads({
         },
 
         onSwitchToThread: (threadId) => {
+            router.push('/dashboard');
             setCurrentThreadId(threadId);
         },
 
