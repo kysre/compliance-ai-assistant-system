@@ -61,14 +61,12 @@ services:
       - media:/code/media
     environment:
       - DJANGO_SETTINGS_MODULE=compliance_ai_assistant.settings.production
-      - ALLOWED_HOSTS=*
+      - ALLOWED_HOSTS=127.0.0.1,localhost
       - DATABASE_NAME=compliance_ai_assistant
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD=postgres
       - DATABASE_HOST=db-postgres
       - DATABASE_PORT=5432
-    ports:
-      - "8000:8000"
     deploy:
       mode: replicated
       replicas: 1
@@ -90,7 +88,7 @@ services:
       replicas: 1
     restart: unless-stopped
 
-  reverse_proxy:
+  reverse-proxy:
     image: reverse-proxy:v1.0.0
     build:
       context: ../nginx
@@ -100,10 +98,10 @@ services:
     restart: unless-stopped
     depends_on:
       - backend
-      - frontend
+      # - frontend
       - lightrag
     ports:
-      - "8080:80"
+      - "8000:80"
     volumes:
       - static:/usr/share/nginx/html/backend/static
       - media:/usr/share/nginx/html/backend/media
@@ -114,20 +112,28 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /Users/kysre/University/term-10/BSC-project/compliance-ai-assistant-system/deployment/databases/db-postgres
+      device: /Users/kysre/University/term-10/BSC-project/compliance-ai-assistant-system/databases/db-postgres
   neo4j_data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /Users/kysre/University/term-10/BSC-project/compliance-ai-assistant-system/deployment/databases/db-neo4j
+      device: /Users/kysre/University/term-10/BSC-project/compliance-ai-assistant-system/databases/db-neo4j
   chroma_data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /Users/kysre/University/term-10/BSC-project/compliance-ai-assistant-system/deployment/databases/db-chroma
+      device: /Users/kysre/University/term-10/BSC-project/compliance-ai-assistant-system/databases/db-chroma
   static:
     driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/kysre/University/term-10/BSC-project/compliance-ai-assistant-system/databases/static
   media:
     driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/kysre/University/term-10/BSC-project/compliance-ai-assistant-system/databases/media
