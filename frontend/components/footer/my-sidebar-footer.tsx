@@ -13,13 +13,16 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
+    SidebarContent,
     useSidebar,
 } from '@/components/ui/sidebar';
-import { BadgeCheck, ChevronsUpDown, LogOut } from 'lucide-react';
+import { BadgeCheck, ChevronsUpDown, LogOut, TextSearch } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { AuthUtils } from '@/api/auth-utils';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { Separator } from '@/components/ui/separator';
 
 export const MySidebarFooter = () => {
     const t = useTranslations('MySidebarFooter');
@@ -43,6 +46,17 @@ export const MySidebarFooter = () => {
 
     return (
         <SidebarFooter>
+            <Separator />
+
+            <SidebarContent>
+                <Link href="/dashboard/regulations" className="w-full">
+                    <SidebarMenuButton size="lg" className="w-full">
+                        <TextSearch className="mr-2 size-4" />
+                        <span>{t('regulations')}</span>
+                    </SidebarMenuButton>
+                </Link>
+            </SidebarContent>
+
             <SidebarMenu>
                 <SidebarMenuItem>
                     <DropdownMenu>

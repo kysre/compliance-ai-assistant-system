@@ -1,9 +1,11 @@
 'use client';
 
-export default function Page() {
+import RegulationsTable from '@/components/regulations/table';
+
+export default function RegulationsPage() {
     return (
-        <div className="flex flex-col gap-4">
-            <h1>Regulations</h1>
+        <div className="container mx-auto py-10 lg:px-40">
+            <RegulationsTable />
         </div>
     );
 }
