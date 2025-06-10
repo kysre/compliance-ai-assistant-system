@@ -3,6 +3,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { Regulation } from '@/api/regulation-utils';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 
 export function useRegulationColumns(): ColumnDef<Regulation>[] {
     const t = useTranslations('RegulationsColumns');
@@ -13,10 +14,14 @@ export function useRegulationColumns(): ColumnDef<Regulation>[] {
             header: t('title'),
             cell: ({ row }) => {
                 const title = row.getValue('title') as string;
-                if (title.length > 50) {
-                    return `${title.substring(0, 50)}...`;
-                }
-                return title;
+                const { identifier } = row.original;
+                const truncatedTitle = title.length > 50 ? `${title.substring(0, 50)}...` : title;
+
+                return (
+                    <Link href={`/dashboard/regulations/${identifier}`} className="underline">
+                        {truncatedTitle}
+                    </Link>
+                );
             },
         },
         {

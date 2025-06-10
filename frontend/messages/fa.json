@@ -79,5 +79,9 @@
         "page": "صفحه {currentPage} از {totalPages}",
         "previous": "قبلی",
         "next": "بعدی"
+    },
+    "RegulationPage": {
+        "delete": "حذف",
+        "source": "منبع"
     }
 }

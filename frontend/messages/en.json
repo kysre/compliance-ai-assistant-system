@@ -79,5 +79,9 @@
         "page": "Page {currentPage} of {totalPages}",
         "previous": "Previous",
         "next": "Next"
+    },
+    "RegulationPage": {
+        "delete": "Delete",
+        "source": "Source"
     }
 }
