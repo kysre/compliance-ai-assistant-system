@@ -125,14 +125,25 @@ class RegulationView(APIView):
     """
 
     def get(self, request, identifier):
-        regulation = Regulation.objects.get(identifier=identifier)
+        try:
+            regulation = Regulation.objects.get(identifier=identifier)
+        except Regulation.DoesNotExist:
+            return Response(
+                {"error": "Regulation not found"}, status=status.HTTP_404_NOT_FOUND
+            )
         serializer = RegulationSerializer(regulation, context={"include_text": True})
         return Response({"regulation": serializer.data}, status=status.HTTP_200_OK)
 
     def delete(self, request, identifier):
-        regulation = Regulation.objects.get(identifier=identifier)
+        try:
+            regulation = Regulation.objects.get(identifier=identifier)
+        except Regulation.DoesNotExist:
+            return Response(
+                {"error": "Regulation not found"}, status=status.HTTP_404_NOT_FOUND
+            )
         # TODO: Implement delete api and remove regulation from rags
-        pass
+        # regulation.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(["POST"])
