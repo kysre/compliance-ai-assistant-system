@@ -33,7 +33,8 @@
     "MySidebarFooter": {
         "avatarFallback": "CN",
         "account": "حساب کاربری",
-        "logout": "خروج"
+        "logout": "خروج",
+        "regulations": "قوانین"
     },
     "ModeToggle": {
         "title": "تغییر تم",
@@ -65,5 +66,22 @@
         "welcomeSuggestionsItem1": "چگونه می‌توانم در بورس سرمایه‌گذاری کنم؟",
         "welcomeSuggestionsItem2": "چگونه می‌توانم مالیات را محاسبه کنم؟",
         "composerPlaceholder": "پیام خود را بنویسید"
+    },
+    "RegulationsColumns": {
+        "title": "عنوان قانون",
+        "authority": "نهاد تصویب‌کننده",
+        "date": "تاریخ تصویب",
+        "link": "منبع",
+        "viewLink": "مشاهده"
+    },
+    "RegulationsDataTable": {
+        "showing": "نمایش {startItem} تا {endItem} از {totalCount} نتیجه",
+        "page": "صفحه {currentPage} از {totalPages}",
+        "previous": "قبلی",
+        "next": "بعدی"
+    },
+    "RegulationPage": {
+        "delete": "حذف",
+        "source": "منبع"
     }
 }

@@ -33,7 +33,8 @@
     "MySidebarFooter": {
         "avatarFallback": "CN",
         "account": "Account",
-        "logout": "Logout"
+        "logout": "Logout",
+        "regulations": "Regulations"
     },
     "ModeToggle": {
         "title": "Toggle Theme",
@@ -65,5 +66,22 @@
         "welcomeSuggestionsItem1": "How can I invest in the stock market?",
         "welcomeSuggestionsItem2": "How are taxes calculated?",
         "composerPlaceholder": "Write a message..."
+    },
+    "RegulationsColumns": {
+        "title": "Regulation Title",
+        "authority": "Approving Authority",
+        "date": "Approval Date",
+        "link": "Source",
+        "viewLink": "View"
+    },
+    "RegulationsDataTable": {
+        "showing": "Showing {startItem} to {endItem} of {totalCount} results",
+        "page": "Page {currentPage} of {totalPages}",
+        "previous": "Previous",
+        "next": "Next"
+    },
+    "RegulationPage": {
+        "delete": "Delete",
+        "source": "Source"
     }
 }
