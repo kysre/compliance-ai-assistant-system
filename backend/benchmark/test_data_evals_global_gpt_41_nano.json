@@ -1,0 +1,352 @@
+[
+    {
+        "id": "168105800935523098",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system output incorrectly states that the proposed regulation is \"fully compliant\", while it completely misses the critical non-compliance issue regarding the sales deadline, which was changed from six months to one year.",
+        "half-noncompliant": "False - The system output incorrectly claims compliance and fails to identify any of the non-compliance points (company name, share quantity, sales method).",
+        "total-noncompliant": "False - The system completely misses the core non-compliance which is the contradiction between the original regulation (approval of sale) and the proposed regulation (rejection of sale), and instead, it incorrectly analyzes the proposed regulation as a compliant action."
+    },
+    {
+        "id": "10881107711898648217",
+        "compliant": "False - The system output fails to identify any of the non-compliances, such as the removal of the explicit legal threat for failure to report suspicious cases in clause 4.",
+        "sentence-noncompliant": "False - The system failed to identify the non-compliance in clause 4 regarding the removal of the requirement to verify the power of attorney and incorrectly concluded that the proposal is fully compliant.",
+        "half-noncompliant": "False - The system fails to identify major non-compliances (incomplete KYC in clause 1, and unrestricted fund transfers in clause 2) and its overall conclusion that the proposal is \"largely aligned\" is incorrect and misleading.",
+        "total-noncompliant": "False - The system output correctly identifies the overall non-compliance but fails to mention at least half of the non-compliant clauses."
+    },
+    {
+        "id": "14577431515650319208",
+        "compliant": "True",
+        "sentence-noncompliant": "True",
+        "half-noncompliant": "False - The system output incorrectly concludes that the proposed regulation is compliant, failing to identify the clear inconsistencies in legal basis, capping method, and validity period.",
+        "total-noncompliant": "False - The system output incorrectly states that the proposed regulation is compliant, while it is in complete contradiction with the original regulation which sets a cap for issuance, whereas the proposal halts it entirely."
+    },
+    {
+        "id": "17349917818789608910",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system incorrectly concludes that the proposed regulation is compliant, completely missing the direct contradiction in clause 4.",
+        "half-noncompliant": "True",
+        "total-noncompliant": "False - The system incorrectly identifies the proposed regulation as compliant, whereas it completely contradicts the original regulation in all four clauses."
+    },
+    {
+        "id": "6627930918218609784",
+        "compliant": "True",
+        "sentence-noncompliant": "True",
+        "half-noncompliant": "False - The system output fails to compare the proposed regulation with the original regulation and misses all the key contradictions such as the change in date, proposing entity, subject, and outcome of the meeting.",
+        "total-noncompliant": "True"
+    },
+    {
+        "id": "13565656141834294885",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system output incorrectly states that the proposed regulation is compliant, while it fails to identify the key point of non-compliance, which is the change in the extension period from one year to six months.",
+        "half-noncompliant": "True",
+        "total-noncompliant": "False - The system output fails to recognize the direct contradiction between the regulation (which extends the deadline for one year) and the proposed regulation (which mandates immediate implementation and imposes fines), and incorrectly concludes that the proposed regulation is compliant."
+    },
+    {
+        "id": "9848437043050581720",
+        "compliant": "False - The system did not provide a compliance status, whereas the proposed regulation is a compliant summary of the regulation.",
+        "sentence-noncompliant": "False - The system failed to conduct the compliance analysis and did not identify the non-compliance resulting from the change in the minimum credit rating.",
+        "half-noncompliant": "False - The system output is incorrect as it does not provide any analysis of the compliance status and instead gives a generic non-answer.",
+        "total-noncompliant": "False - The system incorrectly concludes that the proposed regulation is compliant, while it actually contradicts all the key points of the original regulation such as canceling the credit rating requirement and making a guarantor mandatory."
+    },
+    {
+        "id": "7877771589625000937",
+        "compliant": "False - The system output fails to identify the non-compliance, which is the omission of the two lines referencing the comparative tables for the statute and prospectus.",
+        "sentence-noncompliant": "False - The system failed to provide any analysis of the compliance status and gave a generic non-answer.",
+        "half-noncompliant": "False - The system's output incorrectly assesses the proposed regulation as compliant, completely missing the two key points of non-compliance mentioned in the ground truth.",
+        "total-noncompliant": "False - The system output incorrectly concludes that the proposed regulation is compliant, whereas it is a complete rejection and reversal of the original regulation."
+    },
+    {
+        "id": "13047882428570962710",
+        "compliant": "False - The system output fails to identify the removal of multiple key clauses regarding taxpayer rights, review criteria, and legal justifications from the proposed regulation, thereby reaching an incorrect conclusion of full compliance.",
+        "sentence-noncompliant": "True",
+        "half-noncompliant": "False - The system incorrectly concludes that the proposed regulation is compliant, while it directly contradicts the original regulation on multiple key points such as the centralization of the process, the inclusion of large taxpayers, audit timelines, and priorities.",
+        "total-noncompliant": "False - The output is contradictory; it incorrectly states the proposed regulation is compliant in the \"Compliance Status\" section, but then lists numerous reasons for its non-compliance under \"Regulatory Concerns\" and \"Potential Risks\"."
+    },
+    {
+        "id": "11488010749413466841",
+        "compliant": "True",
+        "sentence-noncompliant": "True",
+        "half-noncompliant": "False - The system incorrectly concludes that the proposed regulation is compliant, while it is non-compliant in four key areas, and the system fails to identify these inconsistencies.",
+        "total-noncompliant": "True"
+    },
+    {
+        "id": "14208130343041823199",
+        "compliant": "`False - The system should have detected that the two regulations are identical, and therefore the proposed regulation is compliant.`",
+        "sentence-noncompliant": "False - The system failed to provide the compliance status and instead gave a generic refusal to answer.",
+        "half-noncompliant": "False - The system output provides generic advice instead of a specific compliance check, failing to identify the explicit contradictions between the regulation and the proposal.",
+        "total-noncompliant": "True"
+    },
+    {
+        "id": "3661789441742081362",
+        "compliant": "False - The system failed to provide a compliance status and gave a generic non-answer, while the regulations are substantively identical and compliant.",
+        "sentence-noncompliant": "False - The system output fails to identify the key change from 'whichever is greater' to 'whichever is lesser' and thus does not actually check the compliance status of the proposed regulation.",
+        "half-noncompliant": "True",
+        "total-noncompliant": "False - The system incorrectly concludes that the proposed regulation is compliant, while it is in complete contradiction with the original regulation on all key points, such as the authority of the Central Bank and tax deductibility limits."
+    },
+    {
+        "id": "503247931769986001",
+        "compliant": "True",
+        "sentence-noncompliant": "False - سیستم به اشتباه وضعیت را مطابق اعلام کرده، در حالی که مغایرت اصلی (تغییر درصد از ۱۰ به ۲۵) را به عنوان دلیل عدم تطابق شناسایی نکرده است.",
+        "half-noncompliant": "False - The system output incorrectly concludes that the proposed regulation is compliant, while it fails to identify the two key discrepancies (the change of \"or\" to \"and\", and the removal of the management approval clause) that make it non-compliant with the original regulation.",
+        "total-noncompliant": "True"
+    },
+    {
+        "id": "9920368049732464088",
+        "compliant": "False - The system failed to analyze the regulations and determine the compliance status, which is \"compliant\".",
+        "sentence-noncompliant": "False - The system incorrectly concludes that the proposed regulation is compliant, whereas it directly contradicts the original regulation by changing the tax rate from 1% to 8%.",
+        "half-noncompliant": "False - The output fails to compare the proposed regulation with the original regulation, thus missing key non-compliance points like the change in tax rates and the incomplete list of goods.",
+        "total-noncompliant": "False - The system output does not compare the proposed regulation with the original regulation; instead, it provides a general analysis of the proposed regulation's compliance with broad financial rules, completely ignoring the direct contradictions between the two texts."
+    },
+    {
+        "id": "17101834591703895677",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system output incorrectly states that the proposed regulation is compliant, while it fails to mention the main point of non-compliance, which is the change of the meeting's outcome from \"approved\" to \"rejected\".",
+        "half-noncompliant": "False - The system output incorrectly concludes there is compliance, while it fails to identify any of the significant non-compliance reasons between the two regulations.",
+        "total-noncompliant": "False - The system failed to recognize that the two regulations are completely unrelated and instead provided a generic analysis of the proposed regulation."
+    },
+    {
+        "id": "2340508423921182075",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system output incorrectly states that the proposed regulation is compliant, while it directly contradicts the original regulation by mandating immediate tax collection instead of suspending it.",
+        "half-noncompliant": "False - The system output incorrectly claims compliance, while the proposed regulation directly contradicts the original by shifting the responsibility of identifying polluters from the Department of Environment to the tax offices and reinstating a previously canceled directive.",
+        "total-noncompliant": "False - The system output fails to recognize the clear non-compliance and instead incorrectly suggests that the proposed regulation could be compliant."
+    },
+    {
+        "id": "12728187543396921265",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system output incorrectly states that the proposed regulation is compliant, while it completely misses the explicit non-compliance reason: the change in the type of security.",
+        "half-noncompliant": "False - The system output is incorrect because it fails to mention at least half of the non-compliance reasons; it only identifies 2 out of 5 key differences (announcing authority, security type) and misses the changes in row number, date, and signature of the minutes.",
+        "total-noncompliant": "False - The system's output incorrectly claims compliance, while the proposed regulation explicitly contradicts and revokes the original one."
+    },
+    {
+        "id": "1354323773135747392",
+        "compliant": "False - The system failed to process the request and did not determine the compliance status, which is fully compliant as the regulations are identical.",
+        "sentence-noncompliant": "False - The system incorrectly identifies the proposed regulation as compliant, while the change in the tax rate from zero to ten percent is a clear violation.",
+        "half-noncompliant": "False - The system output incorrectly claims the proposed regulation is compliant, while failing to mention any of the four key points of non-compliance identified in the provided compliance status.",
+        "total-noncompliant": "False - The system fails to check the compliance of the proposed regulation against the original one; instead, it presents the new, non-compliant rules as facts and analyzes their implications."
+    },
+    {
+        "id": "4855325956673872972",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system incorrectly claims that allowing the import of equipment despite domestic production is aligned with policies supporting domestic production, while this change is in direct conflict with the original regulation's clause that was designed to protect domestic producers.",
+        "half-noncompliant": "False - The system output incorrectly states that the proposed regulation is fully compliant with the original regulation, while it clearly violates at least three key clauses (the financial ceiling, the purchase of domestic products, and the reporting frequency).",
+        "total-noncompliant": "`False - The system incorrectly states that the change in repayment responsibility is compliant with regulations, while it is a major deviation from the original regulation.`"
+    },
+    {
+        "id": "7327157992628097003",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The output fails to mention the main reason for non-compliance, which is the change of the project from a \"railway\" (راه آهن) to a \"highway\" (آزادراه).",
+        "half-noncompliant": "False - The system failed to compare the proposed regulation with the original one, thus missing all key points of non-compliance such as the change in the project (gas pipeline instead of railway), the approving body, and the legal basis.",
+        "total-noncompliant": "False - The system did not compare the proposed regulation with the original regulation; it analyzed the proposed regulation in isolation against general rules."
+    },
+    {
+        "id": "13257281910846380823",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system output fails to identify the non-compliance and instead validates the proposed regulation's incorrect interpretation, which is the opposite of the actual regulation's ruling.",
+        "half-noncompliant": "False - The system completely misinterprets the regulation, stating the proposal is compliant while it directly contradicts the core ruling by confirming a revoked decision and amending an annulled article.",
+        "total-noncompliant": "False - The system correctly identifies a conflict but for the wrong reason; it claims the proposal contradicts the old rules (287, 286, Art. 13), whereas the proposal actually *reinstates* these old rules, making it non-compliant with the new main regulation (ruling 439) that explicitly annulled them."
+    },
+    {
+        "id": "5397335259166599685",
+        "compliant": "False - The system output does not compare the proposed regulation with the original regulation; instead, it provides a general analysis of the regulation's content.",
+        "sentence-noncompliant": "True",
+        "half-noncompliant": "False - سیستم خروجی هیچ یک از موارد عدم انطباق را مشخص نکرده و مقرره پیشنهادی را با مقرره اصلی مقایسه نمی‌کند.",
+        "total-noncompliant": "False - The system incorrectly concludes that the proposed regulation is compliant, whereas it is a complete reversal of the original regulation and therefore non-compliant."
+    },
+    {
+        "id": "4504128153473534419",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system failed to identify the clear non-compliance issue present in the proposed regulation.",
+        "half-noncompliant": "False - The system output incorrectly concludes that the proposed regulation is compliant, while failing to identify any of the three key points of non-compliance (the change in amount, priority of issuance, and the unilateral decision on timing).",
+        "total-noncompliant": "False - The system fails to compare the proposed regulation with the original regulation and instead evaluates it against general financial rules, thereby missing the complete non-compliance between the two texts."
+    },
+    {
+        "id": "7246985297300720162",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system failed to identify the main point of non-compliance, which is the change in the extension period from one year to three years.",
+        "half-noncompliant": "True",
+        "total-noncompliant": "`False` - The system output wrongly concludes that the proposed regulation is compliant, while the compliance status correctly identifies that none of the original regulation's conditions have been met."
+    },
+    {
+        "id": "1829130917703536449",
+        "compliant": "False - The system should have reported compliance as the regulations are identical, but it failed to provide an answer.",
+        "sentence-noncompliant": "False - The system did not provide any compliance analysis and gave a generic error message, while it should have identified the change in the responsible entity for repayment as a non-compliance.",
+        "half-noncompliant": "False - The system output is too generic and does not mention any of the specific non-compliance points between the regulation and the proposed regulation, failing to perform the comparison.",
+        "total-noncompliant": "True"
+    },
+    {
+        "id": "3762875662581334249",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system failed to identify the non-compliance regarding the change in the reporting period from \"every six months\" to \"every two years\".",
+        "half-noncompliant": "True",
+        "total-noncompliant": "True"
+    },
+    {
+        "id": "7478308071674151837",
+        "compliant": "False - The system output fails to identify the non-compliance in the number of hospital beds (changed from 540 to 550).",
+        "sentence-noncompliant": "False - The system failed to identify the non-compliance regarding the environmental approval mentioned in the compliance status.",
+        "half-noncompliant": "False - The system incorrectly concludes that the proposed regulation is compliant, while failing to identify most of the key contradictions, such as the changes in the loan amount, the source of repayment, and the validity period.",
+        "total-noncompliant": "True"
+    },
+    {
+        "id": "8482360315111118737",
+        "compliant": "False - The system output does not clearly state the compliance status and instead provides a generic analysis with a conditional conclusion.",
+        "sentence-noncompliant": "False - The system incorrectly states that the proposed regulation is compliant, while it fails to identify the key contradiction pointed out in the compliance status (changing the extension period from one year to five).",
+        "half-noncompliant": "False - The system incorrectly concludes that the proposed regulation is compliant, while it fails to identify two clear non-compliance issues: the change of the proposing ministry and the change of a clause from \"deleted\" to \"approved\".",
+        "total-noncompliant": "False - The system completely fails to identify the direct and total contradiction between the original and proposed regulations, instead providing a generic analysis and incorrectly concluding that the proposed regulation is compliant."
+    },
+    {
+        "id": "3099016501323891590",
+        "compliant": "False - The system failed to analyze the documents; the proposed regulation is not compliant as it omits several crucial amendments and updates that are present in the main regulation.",
+        "sentence-noncompliant": "True",
+        "half-noncompliant": "False - The system output fails to provide the compliance status and instead gives a generic error message.",
+        "total-noncompliant": "True"
+    },
+    {
+        "id": "2981057989434993127",
+        "compliant": "False - The system output fails to detect the non-compliance caused by the removal of a specific clause and a full proviso from the original regulation's Article 3.",
+        "sentence-noncompliant": "False - The output fails to identify the core non-compliance issue (change from 20% to 10%) and instead treats the proposed regulation's new terms as the standard for compliance.",
+        "half-noncompliant": "False - The system incorrectly concludes that the proposal is compliant, while it directly contradicts and changes several key articles of the original regulation.",
+        "total-noncompliant": "True"
+    },
+    {
+        "id": "8628209137497941543",
+        "compliant": "False - The system output fails to recognize the material change in clause 3, where the domestic content requirement increased from 65% in the original regulation to 85% in the proposed one, and therefore incorrectly claims compliance.",
+        "sentence-noncompliant": "True",
+        "half-noncompliant": "False - The output incorrectly states that the proposed regulation is compliant, while failing to identify the significant points of non-compliance with the original regulation and treating the proposed changes as the new baseline for compliance.",
+        "total-noncompliant": "True"
+    },
+    {
+        "id": "14356001117212262676",
+        "compliant": "False - The system failed to analyze the compliance and provided a generic non-answer, while the proposed regulation is indeed compliant with the original regulation as the main clauses are identical.",
+        "sentence-noncompliant": "False - The system's output is incorrect as it failed to identify the non-compliance mentioned, which is the change in the reporting frequency from \"six-monthly\" to \"two-yearly\".",
+        "half-noncompliant": "False - The system output fails to identify at least half of the non-compliance reasons; it only points out the removal of the environmental approval requirement, but misses the changes in financial ceilings and the validity period.",
+        "total-noncompliant": "True"
+    },
+    {
+        "id": "10025092206143931177",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system completely fails to identify the non-compliance, which is the reduction of the domestic content requirement from 51% in the original regulation to 30% in the proposed one.",
+        "half-noncompliant": "False - The system output incorrectly concludes \"full compliance\" while failing to identify any of the three major points of non-compliance specified in the proposed regulation.",
+        "total-noncompliant": "T`rue`"
+    },
+    {
+        "id": "2150633511409155561",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system's output completely misses the main point of non-compliance, which is the change of the project's subject from \"purchase of one set of optical network\" to \"purchase of ten locomotives\".",
+        "half-noncompliant": "`True`",
+        "total-noncompliant": "True"
+    },
+    {
+        "id": "5598600931429712687",
+        "compliant": "False - The system output fails to identify the significant omissions in the proposed regulation (removal of the meeting's context and specific audit services), thus incorrectly concluding that it is compliant with the original regulation.",
+        "sentence-noncompliant": "False - The system incorrectly concludes \"full compliance\" (تطابق کامل) while failing to identify the main point of non-compliance, which is the change in the maximum tariff increase for public companies from 7% to 15%.",
+        "half-noncompliant": "False - The system was unable to answer the question, while there were two non-compliance issues that it should have detected.",
+        "total-noncompliant": "False - The system incorrectly concludes that the proposed regulation is compliant, while it fundamentally contradicts the original regulation on all points (tariff reduction vs. increase, contract type limitation, and overhead rate cancellation)."
+    },
+    {
+        "id": "15940894549033044698",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system did not provide the compliance status of the proposed regulation and gave a generic refusal to answer.",
+        "half-noncompliant": "False - The system incorrectly concludes that the proposed regulation is compliant, while it fails to identify any of the three key violations regarding domestic content, environmental requirements, and reporting frequency.",
+        "total-noncompliant": "True"
+    },
+    {
+        "id": "6055971126611383170",
+        "compliant": "False - The system failed to identify that the proposed regulation is fully compliant as it is identical to the regulation.",
+        "sentence-noncompliant": "False - The system output failed to identify the non-compliance regarding the reduction in the mandatory percentage of domestic production from 23.3% to 10%.",
+        "half-noncompliant": "False - The system output is a refusal to answer and does not provide any information about the compliance status.",
+        "total-noncompliant": "False - The system output failed to provide a compliance analysis and instead gave a generic refusal to answer."
+    },
+    {
+        "id": "7896649627472442037",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system did not identify the point of non-compliance, which is the reduction of required domestic production from 23.3% to 10%; instead, it treated the new 10% value as a given condition to be checked against general rules.",
+        "half-noncompliant": "False - The system output fails to identify the increase in the financial facility and the change in reporting authority/frequency as points of non-compliance, addressing only one out of three discrepancies.",
+        "total-noncompliant": "True"
+    },
+    {
+        "id": "12103064638795215221",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system output does not mention the non-compliance reason between the proposed regulation and the original one, which is the change in the price difference from 80 to 120 rials.",
+        "half-noncompliant": "False - The system assesses the proposed regulation against general economic rules instead of checking its compliance with the original regulation, thus failing to identify the explicit non-compliance.",
+        "total-noncompliant": "False - The system fails to identify the direct conflict and non-compliance between the two regulations and instead incorrectly analyzes the proposed regulation as being compliant with general government policies."
+    },
+    {
+        "id": "2759654302378259292",
+        "compliant": "False - The system output does not provide a compliance status and instead gives a generic refusal to answer.",
+        "sentence-noncompliant": "False - The system failed to identify the non-compliance regarding the change in the project's reporting period from 6-monthly to annually.",
+        "half-noncompliant": "False - The system output does not contain any compliance analysis, it is a generic refusal to answer.",
+        "total-noncompliant": "False - The system incorrectly claims the financial clauses (unlimited budget and undefined repayment) are compliant, when they are fundamentally non-compliant with the original regulation's specific financial terms."
+    },
+    {
+        "id": "15186936168621507744",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system failed to identify the non-compliance regarding the percentage change of domestically manufactured machinery and provided a generic error message instead.",
+        "half-noncompliant": "False - The system output is a generic error message and fails to identify any of the three clear points of non-compliance between the regulation and the proposed regulation.",
+        "total-noncompliant": "False - The system's conclusion is incorrect because it states the proposed regulation is \"partially compliant\" when in fact it is completely non-compliant with all five key conditions of the original regulation."
+    },
+    {
+        "id": "7481630219328442519",
+        "compliant": "False - The system output does not perform a comparison between the regulation and the proposed regulation; instead, it provides a general analysis of the regulation's content, completely missing the removal of the approving authority's signature which makes the proposed regulation non-compliant.",
+        "sentence-noncompliant": "False - The system output fails to identify the actual reason for non-compliance, which is the change in the project's start deadline from 6 to 12 months.",
+        "half-noncompliant": "False - The system incorrectly concludes that the proposed regulation is compliant, while failing to identify any of the four explicit points of non-compliance between the two regulations.",
+        "total-noncompliant": "`False - The system output does not compare the proposed regulation with the original regulation; instead, it assesses the proposed regulation against general rules and incorrectly concludes it is compliant.`"
+    },
+    {
+        "id": "14625970255070065683",
+        "compliant": "False - The system output does not provide a compliance status, instead giving a generic message that it cannot answer.",
+        "sentence-noncompliant": "False - The system did not perform the compliance check and instead gave a generic refusal, failing to identify the clear non-compliance in the allocated amount.",
+        "half-noncompliant": "False - The system incorrectly concludes that the proposed regulation is compliant, while it is non-compliant in four key areas: amount, source of funds, purpose, and recipient.",
+        "total-noncompliant": "False - The system output fails to compare the proposed regulation with the provided regulation and incorrectly assesses it against general laws, missing the fundamental non-compliance between the two documents."
+    },
+    {
+        "id": "12493607581239885282",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system incorrectly concludes that the proposed regulation is compliant, while it is non-compliant because the allocated credit amount was changed from 12.5 to 20 billion rials.",
+        "half-noncompliant": "False - The system's output fails to identify any of the non-compliance points (beneficiary, project purpose, funding amount, and requesting authority) and incorrectly concludes that the proposal is compliant.",
+        "total-noncompliant": "False - The system incorrectly concludes compliance, while the proposed regulation is completely different from the original regulation in subject, beneficiary, legal basis, amount, and approving authority."
+    },
+    {
+        "id": "13520262759074775193",
+        "compliant": "False - The system does not compare the proposed regulation with the original regulation; instead, it provides a general, conditional analysis based on external financial rules, failing to confirm the \"completely compliant\" status.",
+        "sentence-noncompliant": "False - The system output fails to identify the main non-compliance issue, which is the change in the allocated amount from 5 billion to 8 billion Rials, and incorrectly concludes that the proposal is compliant.",
+        "half-noncompliant": "False - The system output incorrectly states the proposed regulation is compliant, completely missing the non-compliance reasons which are the change in the receiving entity and the purpose of the allocation.",
+        "total-noncompliant": "False - The system output incorrectly claims compliance, completely ignoring the fundamental contradictions in purpose, amount, recipient, and funding source between the regulation and the proposal."
+    },
+    {
+        "id": "15979354645010568775",
+        "compliant": "False - The system failed to identify that the regulations are identical and thus compliant, instead giving a generic \"cannot answer\" response.",
+        "sentence-noncompliant": "False - The system completely fails to identify the core non-compliance, which is the change from \"did not approve\" to \"approved\" for the debt relief, and incorrectly concludes that the proposal is compliant.",
+        "half-noncompliant": "False - The system did not check the compliance status and instead gave a generic \"I can't answer\" response.",
+        "total-noncompliant": "False - The system incorrectly concludes that the proposed regulation is compliant, whereas it is in direct contradiction with the original regulation which explicitly rejected any debt forgiveness."
+    },
+    {
+        "id": "17852467695049693087",
+        "compliant": "False - The system failed to provide a compliance status, giving an error message instead.",
+        "sentence-noncompliant": "False - The output incorrectly states the proposed regulation is compliant, failing to identify the non-compliant change reducing the share for cooperative companies from the required 20% to 10%.",
+        "half-noncompliant": "False - The system did not perform the compliance check and failed to identify any of the non-compliance reasons.",
+        "total-noncompliant": "True"
+    },
+    {
+        "id": "8659499677987882314",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system incorrectly states the proposed regulation is compliant, while failing to identify the clear non-compliance regarding the capital increase amount (80 billion instead of 100 billion Rials).",
+        "half-noncompliant": "False - The system output incorrectly claims full compliance and states there are no signs of non-compliance, while failing to mention any of the four major discrepancies listed in the compliance status (proposing body, approving body, legal basis, and amount of capital increase).",
+        "total-noncompliant": "False - The system did not compare the proposed regulation with the base regulation; instead, it analyzed the proposed regulation's compliance with general corporate law, completely ignoring the provided context."
+    },
+    {
+        "id": "15992351582094185197",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system output does not mention the specific non-compliance, which is the change in the investment amount from 2 billion to 5 billion rials, and instead provides a general and inconclusive analysis.",
+        "half-noncompliant": "False - The system output does not mention any of the non-compliance reasons and states that the proposed regulation is compliant.",
+        "total-noncompliant": "False - The system output fails to compare the proposed regulation with the original one; instead, it provides a generic analysis of the proposed regulation against general laws, completely missing the fact that the two documents are entirely different and contradictory."
+    },
+    {
+        "id": "13779317851035190305",
+        "compliant": "True",
+        "sentence-noncompliant": "False - The system output incorrectly concludes that the proposed regulation is compliant/acceptable, whereas it is non-compliant because it removes the mandatory approval from the Economic Council required by the original regulation.",
+        "half-noncompliant": "True",
+        "total-noncompliant": "False - The system incorrectly suggests there is no conflict with the council's general approaches, while the proposed regulation is in direct and complete opposition to the original regulation's explicit rules."
+    }
+]
