@@ -76,13 +76,14 @@ services:
     image: compliance-ai-assistant-frontend:v1.0.0
     build:
       context: ../frontend
+      target: production
       dockerfile: Dockerfile
       tags:
         - compliance-ai-assistant-frontend:v1.0.0
     depends_on:
       - backend
-    ports:
-      - "3000:3000"
+    environment:
+      - NODE_ENV=production
     deploy:
       mode: replicated
       replicas: 1
@@ -98,7 +99,7 @@ services:
     restart: unless-stopped
     depends_on:
       - backend
-      # - frontend
+      - frontend
       - lightrag
     ports:
       - "8000:80"

@@ -75,7 +75,7 @@ export function ChatWithThreads({
             setCurrentThreadId(json.thread.id);
         });
         getThreads().json((json) => {
-            var defaultThreadList = [];
+            let defaultThreadList: ExternalStoreThreadData<any>[] = [];
             json.threads.forEach((thread: any) => {
                 defaultThreadList = [
                     ...defaultThreadList,
@@ -85,14 +85,17 @@ export function ChatWithThreads({
                         title: thread.title,
                     },
                 ];
-                var messages = [];
+                let messages: ThreadMessageLike[] = [];
                 getMessages(thread.id).json((json) => {
                     json.messages.forEach((message: any) => {
                         messages = [
                             ...messages,
                             {
                                 id: message.id,
-                                status: 'complete',
+                                status: {
+                                    type: 'complete',
+                                    reason: 'stop',
+                                },
                                 role: message.role,
                                 content: [{ type: 'text', text: message.content }],
                                 metadata: {
@@ -116,7 +119,7 @@ export function ChatWithThreads({
         onSwitchToNewThread: async () => {
             router.push('/dashboard');
             const { createThread } = ChatUtils;
-            var newId: string = '';
+            let newId: string = '';
             await createThread().json((json) => {
                 newId = json.thread.id;
             });
@@ -185,7 +188,7 @@ export function ChatWithThreads({
         const ragType = mode.split('/')[0];
         const ragMode = mode.split('/')[1];
         const { sendMessage } = ChatUtils;
-        var text: string = '';
+        let text: string = '';
         await sendMessage(
             currentThreadId,
             message.content[0].text,
@@ -197,7 +200,7 @@ export function ChatWithThreads({
             .json((json) => {
                 text = json.text;
             })
-            .catch((error) => {
+            .catch(() => {
                 text = 'Something went wrong. Try again.';
             });
 

@@ -36,7 +36,7 @@ export default function Page() {
                 .json((json) => {
                     setRegulation(json.regulation);
                 })
-                .catch((error) => {
+                .catch(() => {
                     toast.error('Error in fetching regulation', {
                         description: 'You will be redirected to the regulations page',
                     });
